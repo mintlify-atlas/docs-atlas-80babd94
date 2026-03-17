@@ -8,10 +8,6 @@
     "dark": "#fbc826"
   },
   "favicon": "/favicon.svg",
-  "logo": {
-    "light": "https://media.brand.dev/fbe8933d-1fb8-4172-912e-fc6300fc75e1.png",
-    "dark": "https://media.brand.dev/fbe8933d-1fb8-4172-912e-fc6300fc75e1.png"
-  },
   "navbar": {
     "primary": {
       "type": "github",

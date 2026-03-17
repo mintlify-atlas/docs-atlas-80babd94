@@ -61,7 +61,7 @@ Returns a `string` containing the beautified source code.
 | `indent_size` | number | `4` | Number of spaces per indentation level. |
 | `indent_char` | string | `" "` | Character used for indentation. |
 | `indent_with_tabs` | boolean | `false` | Indent with tabs instead of spaces. Overrides `indent_size` and `indent_char`. |
-| `eol` | string | `"\n"` | End-of-line character(s). Defaults to the first newline found in the file. |
+| `eol` | string | `"auto"` | End-of-line character(s). `"auto"` detects the first newline in the file; falls back to `"\n"`. |
 | `end_with_newline` | boolean | `false` | Ensure the output ends with a newline. |
 | `indent_level` | number | `0` | Initial indentation level. |
 | `preserve_newlines` | boolean | `true` | Preserve existing blank lines in the output. |

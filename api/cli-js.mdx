@@ -56,14 +56,14 @@ js-beautify --config .jsbeautifyrc app.js
 | `--indent-size` | `-s` | Number of spaces per indentation level. | `4` |
 | `--indent-char` | `-c` | Character used for indentation. | `" "` |
 | `--indent-with-tabs` | `-t` | Indent with tabs. Overrides `--indent-size` and `--indent-char`. | — |
-| `--eol` | `-e` | End-of-line character(s). | first newline in file, otherwise `\n` |
+| `--eol` | `-e` | End-of-line character(s). `auto` detects the first newline in the file; falls back to `\n`. | `auto` |
 | `--end-with-newline` | `-n` | End output with a newline. | — |
 | `--editorconfig` | | Use EditorConfig to set up options. | — |
 | `--indent-level` | `-l` | Initial indentation level. | `0` |
 | `--preserve-newlines` | `-p` | Preserve line-breaks. Use `--no-preserve-newlines` to disable. | enabled |
 | `--max-preserve-newlines` | `-m` | Maximum line-breaks to preserve in one chunk. | `10` |
 | `--space-in-paren` | `-P` | Add padding spaces within parentheses, e.g. `f( a, b )`. | — |
-| `--space-in-empty-paren` | `-E` | Add a single space inside empty parentheses, e.g. `f( )`. | — |
+| `--space-in-empty-paren` | `-Q` | Add a single space inside empty parentheses, e.g. `f( )`. | — |
 | `--jslint-happy` | `-j` | Enable jslint-stricter mode. | — |
 | `--space-after-anon-function` | `-a` | Add a space before an anonymous function's parens, e.g. `function ()`. | — |
 | `--space-after-named-function` | | Add a space before a named function's parens, e.g. `function foo ()`. | — |

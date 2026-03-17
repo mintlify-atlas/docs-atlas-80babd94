@@ -104,11 +104,19 @@ print(result)
 
 ## CLI usage
 
-Both packages install a `js-beautify` command. Beautified output goes to `stdout` by default.
+The `jsbeautifier` package installs a `js-beautify` command. The `cssbeautifier` package installs a `css-beautify` command. Beautified output goes to `stdout` by default.
 
-```bash
+<CodeGroup>
+
+```bash jsbeautifier
 js-beautify file.js
 ```
+
+```bash cssbeautifier
+css-beautify styles.css
+```
+
+</CodeGroup>
 
 Pass `-` to read from stdin:
 

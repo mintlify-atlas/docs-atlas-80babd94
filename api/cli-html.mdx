@@ -47,7 +47,8 @@ html-beautify index.html --outfile index.pretty.html
 | `--preserve-newlines` | `-p` | Preserve existing line-breaks. Use `--no-preserve-newlines` to disable. | enabled |
 | `--max-preserve-newlines` | `-m` | Maximum consecutive line-breaks to preserve. | `10` |
 | `--indent-inner-html` | `-I` | Indent `<head>` and `<body>` sections. | — |
-| `--brace-style` | `-b` | Brace placement: `collapse`, `collapse-preserve-inline`, `expand`, `end-expand`, `none`. | `collapse` |
+| `--indent-handlebars` | `-H` | Indent Handlebars template expressions. | `true` |
+| `--brace-style` | `-b` | Brace placement: `collapse`, `expand`, `end-expand`. | `collapse` |
 | `--indent-scripts` | `-S` | Indentation of `<script>` tag content: `keep`, `separate`, `normal`. | `normal` |
 | `--wrap-line-length` | `-w` | Maximum characters per line. `0` disables. | `250` |
 | `--wrap-attributes` | `-A` | Attribute wrapping strategy: `auto`, `force`, `force-aligned`, `force-expand-multiline`, `aligned-multiple`, `preserve`, `preserve-aligned`. | `auto` |
@@ -56,7 +57,7 @@ html-beautify index.html --outfile index.pretty.html
 | `--inline` | `-d` | Comma-separated list of tag names to treat as inline elements. | — |
 | `--inline_custom_elements` | | Treat custom elements as inline. | `true` |
 | `--unformatted` | `-U` | Comma-separated list of tags whose opening/closing tags should not be reformatted (defaults to inline tags). | — |
-| `--content_unformatted` | `-T` | Comma-separated list of tags whose content should not be reformatted. | `pre` |
+| `--content_unformatted` | `-T` | Comma-separated list of tags whose content should not be reformatted. | `pre,textarea` |
 | `--extra_liners` | `-E` | Comma-separated list of tags that receive an extra blank line before them. | `head,body,/html` |
 | `--editorconfig` | | Use EditorConfig to set up options. | — |
 | `--indent_scripts` | | Sets indent level inside script tags: `normal`, `keep`, `separate`. | — |

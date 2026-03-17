@@ -60,11 +60,14 @@ Returns a `string` containing the beautified HTML code.
 | `indent_size` | number | `4` | Number of spaces per indentation level. |
 | `indent_char` | string | `" "` | Character used for indentation. |
 | `indent_with_tabs` | boolean | `false` | Indent with tabs instead of spaces. Overrides `indent_size` and `indent_char`. |
-| `eol` | string | `"\n"` | End-of-line character(s). Defaults to the first newline found in the file. |
+| `eol` | string | `"auto"` | End-of-line character(s). `"auto"` detects the first newline in the file; falls back to `"\n"`. |
 | `end_with_newline` | boolean | `false` | Ensure the output ends with a newline. |
 | `preserve_newlines` | boolean | `true` | Preserve existing blank lines. |
 | `max_preserve_newlines` | number | `10` | Maximum consecutive blank lines to preserve. |
-| `indent_inner_html` | boolean | `false` | Indent `<head>` and `<body>` sections. |
+| `indent_inner_html` | boolean | `false` | Indent both `<head>` and `<body>` sections. |
+| `indent_head_inner_html` | boolean | `true` | Indent the contents of `<head>` specifically. Overrides `indent_inner_html` for `<head>`. |
+| `indent_body_inner_html` | boolean | `true` | Indent the contents of `<body>` specifically. Overrides `indent_inner_html` for `<body>`. |
+| `indent_handlebars` | boolean | `true` | Indent Handlebars template expressions. CLI flag: `-H, --indent-handlebars`. |
 | `brace_style` | string | `"collapse"` | Brace placement style. One of `collapse`, `collapse-preserve-inline`, `expand`, `end-expand`, `none`. |
 | `indent_scripts` | string | `"normal"` | Indentation of content inside `<script>` tags. One of `keep`, `separate`, `normal`. |
 | `wrap_line_length` | number | `250` | Maximum characters per line. `0` disables wrapping. |
@@ -74,7 +77,7 @@ Returns a `string` containing the beautified HTML code.
 | `inline` | string[] | (HTML inline elements) | List of tag names to treat as inline elements. |
 | `inline_custom_elements` | boolean | `true` | Treat custom elements (e.g. `<my-component>`) as inline. |
 | `unformatted` | string[] | (inline elements) | List of tag names whose opening/closing tags should not be reformatted. |
-| `content_unformatted` | string[] | `["pre"]` | List of tag names whose content should not be reformatted. |
+| `content_unformatted` | string[] | `["pre","textarea"]` | List of tag names whose content should not be reformatted. |
 | `extra_liners` | string[] | `["head", "body", "/html"]` | Tags that receive an extra blank line before them. |
 | `unformatted_content_delimiter` | string | `""` | Keep text content between two occurrences of this string together. |
 | `indent_empty_lines` | boolean | `false` | Keep indentation on otherwise empty lines. |

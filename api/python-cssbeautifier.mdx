@@ -104,7 +104,7 @@ All option names use underscores and match the CLI flag names (with dashes repla
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `eol` | `str` | `"\n"` | Line terminator character(s). Defaults to the first newline found in the file, otherwise `"\n"`. |
+| `eol` | `str` | `"auto"` | Line terminator character(s). `"auto"` detects the first newline in the file; falls back to `"\n"`. |
 | `end_with_newline` | `bool` | `False` | Append a newline at the end of the output. |
 
 ### Newline preservation

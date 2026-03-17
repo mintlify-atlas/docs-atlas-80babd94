@@ -143,6 +143,31 @@ css-beautify --newline-between-rules style.css
 css-beautify --no-newline-between-rules style.css
 ```
 
+## Combinator spacing
+
+The `space_around_combinator` option adds spaces around CSS combinators (`>`, `~`, `+`).
+
+<Tabs>
+  <Tab title="space_around_combinator: false (default)">
+```css
+.parent>.child {
+    color: red;
+}
+```
+  </Tab>
+  <Tab title="space_around_combinator: true">
+```css
+.parent > .child {
+    color: red;
+}
+```
+  </Tab>
+</Tabs>
+
+```bash
+css-beautify --space-around-combinator style.css
+```
+
 ## Full before/after example
 
 <Tabs>

@@ -18,7 +18,7 @@ These options apply to all three beautifiers (JavaScript, CSS, and HTML).
 | `indent_size` | `-s, --indent-size` | integer | `4` | Number of spaces per indentation level. |
 | `indent_char` | `-c, --indent-char` | string | `" "` | Character used for indentation. |
 | `indent_with_tabs` | `-t, --indent-with-tabs` | boolean | `false` | Indent with tabs. Overrides `indent_size` and `indent_char`. |
-| `eol` | `-e, --eol` | string | `"\n"` | Line terminator character(s). Defaults to the first newline found in the file, otherwise `"\n"`. |
+| `eol` | `-e, --eol` | string | `"auto"` | Line terminator character(s). `"auto"` detects the first newline in the file; falls back to `"\n"`. |
 | `end_with_newline` | `-n, --end-with-newline` | boolean | `false` | Ensure output ends with a newline. |
 | `indent_empty_lines` | `--indent-empty-lines` | boolean | `false` | Keep indentation on otherwise empty lines. |
 
@@ -33,7 +33,7 @@ These options apply to the JavaScript beautifier only.
 | `preserve_newlines` | `-p, --preserve-newlines` | boolean | `true` | Preserve existing line breaks. Use `--no-preserve-newlines` to disable. |
 | `max_preserve_newlines` | `-m, --max-preserve-newlines` | integer | `10` | Maximum number of consecutive line breaks to preserve. |
 | `space_in_paren` | `-P, --space-in-paren` | boolean | `false` | Add padding spaces inside parentheses: `f( a, b )`. |
-| `space_in_empty_paren` | `-E, --space-in-empty-paren` | boolean | `false` | Add a single space inside empty parentheses: `f( )`. |
+| `space_in_empty_paren` | `-Q, --space-in-empty-paren` | boolean | `false` | Add a single space inside empty parentheses: `f( )`. |
 | `jslint_happy` | `-j, --jslint-happy` | boolean | `false` | Enable JSLint-stricter mode. Implies `space_after_anon_function`. |
 | `space_after_anon_function` | `-a, --space-after-anon-function` | boolean | `false` | Add a space before an anonymous function's parentheses: `function ()`. |
 | `space_after_named_function` | `--space-after-named-function` | boolean | `false` | Add a space before a named function's parentheses: `function example ()`. |
@@ -81,11 +81,12 @@ Accepts a comma-separated list or JSON array. In JavaScript, `auto` means no tem
 | `indent_size` | `-s, --indent-size` | integer | `4` | Number of spaces per indentation level. |
 | `indent_char` | `-c, --indent-char` | string | `" "` | Character used for indentation. |
 | `indent_with_tabs` | `-t, --indent-with-tabs` | boolean | `false` | Indent with tabs. Overrides `indent_size` and `indent_char`. |
-| `eol` | `-e, --eol` | string | `"\n"` | Line terminator character(s). |
+| `eol` | `-e, --eol` | string | `"auto"` | Line terminator character(s). `"auto"` detects the first newline in the file; falls back to `"\n"`. |
 | `end_with_newline` | `-n, --end-with-newline` | boolean | `false` | Ensure output ends with a newline. |
 | `brace_style` | `-b, --brace-style` | string | `"collapse"` | Brace placement: `collapse` or `expand`. |
 | `selector_separator_newline` | `-L, --selector-separator-newline` | boolean | `true` | Add a newline between multiple selectors. |
 | `newline_between_rules` | `-N, --newline-between-rules` | boolean | `true` | Add a blank line between CSS rules. |
+| `space_around_combinator` | `--space-around-combinator` | boolean | `false` | Add spaces around CSS combinators (`>`, `~`, `+`). |
 | `indent_empty_lines` | `--indent-empty-lines` | boolean | `false` | Keep indentation on otherwise empty lines. |
 
 ## HTML options
@@ -95,11 +96,14 @@ Accepts a comma-separated list or JSON array. In JavaScript, `auto` means no tem
 | `indent_size` | `-s, --indent-size` | integer | `4` | Number of spaces per indentation level. |
 | `indent_char` | `-c, --indent-char` | string | `" "` | Character used for indentation. |
 | `indent_with_tabs` | `-t, --indent-with-tabs` | boolean | `false` | Indent with tabs. Overrides `indent_size` and `indent_char`. |
-| `eol` | `-e, --eol` | string | `"\n"` | Line terminator character(s). |
+| `eol` | `-e, --eol` | string | `"auto"` | Line terminator character(s). `"auto"` detects the first newline in the file; falls back to `"\n"`. |
 | `end_with_newline` | `-n, --end-with-newline` | boolean | `false` | Ensure output ends with a newline. |
 | `preserve_newlines` | `-p, --preserve-newlines` | boolean | `true` | Preserve existing line breaks. |
 | `max_preserve_newlines` | `-m, --max-preserve-newlines` | integer | `10` | Maximum number of consecutive line breaks to preserve. |
 | `indent_inner_html` | `-I, --indent-inner-html` | boolean | `false` | Indent the contents of `<head>` and `<body>`. |
+| `indent_head_inner_html` | *(not in CLI)* | boolean | `true` | Indent the contents of `<head>` specifically. Overrides `indent_inner_html` for `<head>`. |
+| `indent_body_inner_html` | *(not in CLI)* | boolean | `true` | Indent the contents of `<body>` specifically. Overrides `indent_inner_html` for `<body>`. |
+| `indent_handlebars` | `-H, --indent-handlebars` | boolean | `true` | Indent Handlebars template expressions. |
 | `brace_style` | `-b, --brace-style` | string | `"collapse"` | Brace placement style. Same values as the JavaScript option. |
 | `indent_scripts` | `-S, --indent-scripts` | string | `"normal"` | Indentation inside `<script>` tags: `normal`, `keep`, or `separate`. |
 | `wrap_line_length` | `-w, --wrap-line-length` | integer | `250` | Wrap lines exceeding this character count. `0` disables wrapping. |
@@ -109,7 +113,7 @@ Accepts a comma-separated list or JSON array. In JavaScript, `auto` means no tem
 | `inline` | `-d, --inline` | array | *(HTML inline tags)* | Tags treated as inline elements. |
 | `inline_custom_elements` | `--inline-custom-elements` | boolean | `true` | Treat custom elements (e.g. `<my-component>`) as inline. |
 | `unformatted` | `-U, --unformatted` | array | *(inline tags)* | Tags whose content is not reformatted. |
-| `content_unformatted` | `-T, --content-unformatted` | array | `["pre"]` | Tags whose text content is preserved verbatim. |
+| `content_unformatted` | `-T, --content-unformatted` | array | `["pre","textarea"]` | Tags whose text content is preserved verbatim. |
 | `extra_liners` | `-E, --extra-liners` | array | `["head","body","/html"]` | Tags that get an extra blank line before them. |
 | `editorconfig` | `--editorconfig` | boolean | `false` | Use EditorConfig to set formatting options. |
 | `unformatted_content_delimiter` | `--unformatted-content-delimiter` | string | `""` | Keep text content together between occurrences of this string. |
