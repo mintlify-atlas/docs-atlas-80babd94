@@ -1,0 +1,83 @@
+---
+title: "Beautify Directives"
+description: "Control beautifier behavior from within your source files using ignore and preserve directives."
+---
+
+Directives let you control the behavior of the beautifier from within your source files. They are placed in comments and are supported in JavaScript, CSS, and HTML.
+
+| Language | Directive format |
+|---|---|
+| JavaScript | `/* beautify {name}:{value} */` |
+| CSS | `/* beautify {name}:{value} */` |
+| HTML | `<!-- beautify {name}:{value} -->` |
+
+Two directives are available: `ignore` and `preserve`.
+
+## ignore directive
+
+The `ignore` directive tells the beautifier to treat a section of the file as **opaque literal text** — it is not parsed or reformatted in any way. Use this when the content is not valid syntax in the current language (for example, a template expression embedded inside a JavaScript file).
+
+The content between `ignore:start` and `ignore:end` passes through the output completely unchanged.
+
+```js
+// Use ignore when the content is not parsable in the current language
+var a =  1;
+/* beautify ignore:start */
+ {This is some strange{template language{using open-braces?
+/* beautify ignore:end */
+```
+
+<Tip>
+Use `ignore` any time the beautifier would break or mangle a block because it does not understand its syntax — e.g. non-standard template tags, embedded DSLs, or intentionally preserved whitespace.
+</Tip>
+
+## preserve directive
+
+<Warning>
+The `preserve` directive is supported in **JavaScript and HTML only**. It is not available in CSS.
+</Warning>
+
+The `preserve` directive tells the beautifier to **parse** a section of code as normal, but then keep the existing formatting rather than applying its own. Use this when the content is valid syntax that you have formatted deliberately and do not want the beautifier to reformat.
+
+The content between `preserve:start` and `preserve:end` remains unchanged after beautification, even though it is fully parsed.
+
+```js
+// Use preserve when the content is valid syntax in the current language
+// This will parse the code and preserve the existing formatting.
+/* beautify preserve:start */
+{
+    browserName: 'internet explorer',
+    platform:    'Windows 7',
+    version:     '8'
+}
+/* beautify preserve:end */
+```
+
+## Directives in HTML
+
+In HTML files the same directives use HTML comment syntax:
+
+```html
+<div class="normal">
+    <!-- beautify ignore:start -->
+    <weird-template-tag @bind={value}>
+    <!-- beautify ignore:end -->
+</div>
+```
+
+## Choosing between ignore and preserve
+
+<AccordionGroup>
+  <Accordion title="When to use ignore">
+    Use `ignore` when the section contains content that **cannot be parsed** by the beautifier as the current language — for example:
+    - Template syntax that uses characters invalid in JavaScript or CSS (e.g. `{%`, `<%`, `<?`)
+    - Embedded DSLs or config blocks
+    - Any region where the beautifier produces errors or mangled output
+  </Accordion>
+  <Accordion title="When to use preserve">
+    Use `preserve` when the section **is valid syntax** in the current language, but you have formatted it with deliberate alignment or whitespace that you want to keep — for example:
+    - A hand-aligned object literal
+    - A comment block with specific formatting
+    - Declarative data structures where column alignment aids readability
+  </Accordion>
+</AccordionGroup>

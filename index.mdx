@@ -1,97 +1,106 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "JS Beautify"
+description: "A powerful beautifier for JavaScript, CSS, and HTML — available as a Node.js library, Python package, CLI tool, and web browser script."
 ---
 
-## Setting up
-
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    Beautify your first file in under a minute.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Installation" icon="download" href="/installation">
+    Install via npm, pip, or use via CDN.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Configuration" icon="sliders" href="/configuration/options">
+    Explore all options for indentation, brace style, and more.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="API Reference" icon="code" href="/api/js-beautify">
+    Full API reference for JavaScript, CSS, and HTML beautifiers.
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## What is JS Beautify?
 
-Everything you need to create world-class documentation.
+JS Beautify reformats and re-indents JavaScript, CSS, and HTML code. It handles minified or uglified code, unpacks scripts packed by Dean Edward's packer, and can partially deobfuscate scripts processed by javascript-obfuscator.
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
+<CardGroup cols={3}>
+  <Card title="JavaScript" icon="square-js">
+    Format JS, JSON, and JSX. Configurable indentation, brace style, operator position, and more.
   </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
+  <Card title="CSS" icon="css3-alt">
+    Format CSS, SCSS, and Less. Control selector newlines, rule spacing, and indentation.
   </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
+  <Card title="HTML" icon="html5">
+    Format HTML with control over tag inlining, attribute wrapping, and script indentation.
   </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+</CardGroup>
 
-## Need inspiration?
+## Multiple ways to use it
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<Tabs>
+  <Tab title="Node.js Library">
+    ```bash
+    npm install js-beautify
+    ```
+
+    ```js
+    import beautify from 'js-beautify';
+
+    const result = beautify.js('function foo(){return 42;}', { indent_size: 2 });
+    console.log(result);
+    // function foo() {
+    //   return 42;
+    // }
+    ```
+  </Tab>
+  <Tab title="CLI">
+    ```bash
+    npm install -g js-beautify
+    js-beautify foo.js
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```bash
+    pip install jsbeautifier
+    ```
+
+    ```python
+    import jsbeautifier
+    res = jsbeautifier.beautify('function foo(){return 42;}')
+    ```
+  </Tab>
+  <Tab title="Browser">
+    ```html
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify.min.js"></script>
+    <script>
+      var result = js_beautify('function foo(){return 42;}', { indent_size: 2 });
+    </script>
+    ```
+  </Tab>
+</Tabs>
+
+## Key features
+
+<AccordionGroup>
+  <Accordion title="Highly configurable">
+    Control indentation size and character, brace style, line wrapping, operator position, and dozens of other formatting preferences through CLI flags, a `.jsbeautifyrc` file, or programmatic options.
+  </Accordion>
+  <Accordion title="EditorConfig integration">
+    JS Beautify automatically reads your `.editorconfig` file to align formatting rules with your editor settings — no duplicate configuration needed.
+  </Accordion>
+  <Accordion title="Language-specific overrides">
+    Apply different formatting rules for JavaScript, CSS, and HTML within a single `.jsbeautifyrc` config. Embedded scripts and styles inside HTML inherit their own rules.
+  </Accordion>
+  <Accordion title="Beautify directives">
+    Use `/* beautify ignore:start */` and `/* beautify preserve:start */` directives in your source files to protect sections from being reformatted.
+  </Accordion>
+  <Accordion title="Templating language support">
+    Handles templating languages including Django, ERB, Handlebars, PHP, Smarty, and Angular inside HTML files without corrupting template syntax.
+  </Accordion>
+  <Accordion title="Unpacker support">
+    Detects and unpacks scripts packed by Dean Edward's popular packer, and partially deobfuscates scripts processed by javascript-obfuscator.
+  </Accordion>
+</AccordionGroup>
+
+## Try it online
+
+Visit [beautifier.io](https://beautifier.io/) to try JS Beautify in your browser with full options available via the UI.

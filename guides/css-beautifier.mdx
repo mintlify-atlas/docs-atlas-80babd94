@@ -1,0 +1,179 @@
+---
+title: "CSS Beautifier"
+description: "A guide to formatting CSS, SCSS, and Less stylesheets with js-beautify."
+---
+
+The CSS beautifier reformats and re-indents CSS stylesheets. It also works on **SCSS** and **Less** files, which share the same syntax structure.
+
+## Basic usage
+
+<CodeGroup>
+```bash CLI
+css-beautify style.css
+# or
+js-beautify --css style.css
+```
+
+```js Node.js
+var beautify_css = require('js-beautify').css;
+var result = beautify_css(source, { indent_size: 2 });
+```
+
+```js ESM
+import beautify from 'js-beautify';
+var result = beautify.css(source, { indent_size: 2 });
+```
+</CodeGroup>
+
+## Indentation
+
+The `indent_size` and `indent_char` options control how declarations inside rule blocks are indented.
+
+| Option | Default | Description |
+|---|---|---|
+| `indent_size` | `4` | Number of characters per indent level |
+| `indent_char` | `" "` | Character used for indentation |
+| `indent_with_tabs` | `false` | Use tabs instead of spaces (overrides the above) |
+
+```bash
+css-beautify --indent-size 2 style.css
+css-beautify --indent-with-tabs style.css
+```
+
+## Brace style
+
+The `brace_style` option controls where rule opening braces are placed.
+
+| Value | Description |
+|---|---|
+| `collapse` | Opening brace on the same line as the selector (default) |
+| `expand` | Opening brace on its own line |
+
+<Tabs>
+  <Tab title="collapse (default)">
+```css
+.button {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #0070f3;
+}
+```
+  </Tab>
+  <Tab title="expand">
+```css
+.button
+{
+    display: inline-block;
+    padding: 8px 16px;
+    background: #0070f3;
+}
+```
+  </Tab>
+</Tabs>
+
+```bash
+css-beautify --brace-style expand style.css
+```
+
+## Selector separator newline
+
+When `selector_separator_newline` is enabled (the default), each selector in a comma-separated list is placed on its own line.
+
+<Tabs>
+  <Tab title="Before">
+```css
+h1, h2, h3 { color: red; }
+```
+  </Tab>
+  <Tab title="After (selector_separator_newline: true)">
+```css
+h1,
+h2,
+h3 {
+    color: red;
+}
+```
+  </Tab>
+  <Tab title="selector_separator_newline: false">
+```css
+h1, h2, h3 {
+    color: red;
+}
+```
+  </Tab>
+</Tabs>
+
+```bash
+css-beautify --selector-separator-newline style.css
+# disable with:
+css-beautify --no-selector-separator-newline style.css
+```
+
+## Newline between rules
+
+The `newline_between_rules` option (enabled by default) inserts a blank line between adjacent CSS rules, making the stylesheet easier to scan.
+
+<Tabs>
+  <Tab title="newline_between_rules: true (default)">
+```css
+.foo {
+    color: red;
+}
+
+.bar {
+    color: blue;
+}
+```
+  </Tab>
+  <Tab title="newline_between_rules: false">
+```css
+.foo {
+    color: red;
+}
+.bar {
+    color: blue;
+}
+```
+  </Tab>
+</Tabs>
+
+```bash
+css-beautify --newline-between-rules style.css
+# disable with:
+css-beautify --no-newline-between-rules style.css
+```
+
+## Full before/after example
+
+<Tabs>
+  <Tab title="Before">
+```css
+.nav{display:flex;gap:8px}.nav a,.nav button{color:#333;text-decoration:none;font-size:14px}.hero{background:#f0f0f0;padding:40px 20px;text-align:center}
+```
+  </Tab>
+  <Tab title="After">
+```css
+.nav {
+    display: flex;
+    gap: 8px;
+}
+
+.nav a,
+.nav button {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.hero {
+    background: #f0f0f0;
+    padding: 40px 20px;
+    text-align: center;
+}
+```
+  </Tab>
+</Tabs>
+
+<Tip>
+The CSS beautifier also handles SCSS and Less. Pass in your `.scss` or `.less` file the same way — the formatter recognises the shared syntax automatically.
+</Tip>

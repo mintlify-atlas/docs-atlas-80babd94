@@ -1,0 +1,102 @@
+---
+title: "Language-specific overrides"
+description: "Apply different formatting rules per language in a single .jsbeautifyrc file using language override keys."
+---
+
+JS Beautify settings form a shallow tree. Top-level options apply to all languages, and you can override any of them inside `js`, `css`, or `html` keys. Embedded `<script>` and `<style>` blocks inside HTML can be overridden further under `html.js` and `html.css`.
+
+## Override tree
+
+```
+root settings
+├── js        — overrides for .js files
+├── css       — overrides for .css files
+└── html      — overrides for .html files
+    ├── js    — overrides for <script> blocks inside HTML
+    └── css   — overrides for <style> blocks inside HTML
+```
+
+## Example
+
+```json .jsbeautifyrc
+{
+    "indent_size": 4,
+    "html": {
+        "end_with_newline": true,
+        "js": {
+            "indent_size": 2
+        },
+        "css": {
+            "indent_size": 2
+        }
+    },
+    "css": {
+        "indent_size": 1
+    },
+    "js": {
+        "preserve-newlines": true
+    }
+}
+```
+
+## How inheritance works
+
+Settings are inherited from the root and then merged shallowly with the language-specific overrides. Each language only sees its own override key merged on top of the root — it does not inherit from sibling languages.
+
+Using the example above:
+
+| File / context | Effective settings |
+| --- | --- |
+| HTML files | `indent_size: 4` (inherited), `end_with_newline: true` |
+| `<script>` inside HTML | `indent_size: 2` (overridden), `end_with_newline: true` (inherited from `html`) |
+| `<style>` inside HTML | `indent_size: 2` (overridden), `end_with_newline: true` (inherited from `html`) |
+| CSS files | `indent_size: 1` (overridden) |
+| JS files | `indent_size: 4` (inherited), `preserve-newlines: true` |
+
+<Note>
+  Language-specific overrides in `.jsbeautifyrc` are a JavaScript-only feature. When settings are passed directly to the API in either the JavaScript or Python implementation, you can still use the same tree structure.
+</Note>
+
+## Shallow merge behavior
+
+The merge is **shallow**: only the direct keys inside each language block override the root. There is no deep merge between nested objects. If you specify a `css` key at the root and a `css` key inside `html`, they do not merge — `html.css` only inherits from `html`, not from the root `css` block.
+
+```json Example of shallow merge
+{
+    "indent_size": 4,
+    "css": {
+        "selector_separator_newline": false,
+        "indent_size": 2
+    },
+    "html": {
+        "css": {
+            "indent_size": 1
+            // selector_separator_newline is NOT inherited from root css —
+            // it reverts to its own default
+        }
+    }
+}
+```
+
+## API usage
+
+The same tree structure works when passing options directly to the Node.js or Python API:
+
+```js Node.js
+import beautify from 'js-beautify';
+
+const options = {
+    indent_size: 4,
+    html: {
+        end_with_newline: true,
+        js: { indent_size: 2 },
+        css: { indent_size: 2 }
+    },
+    css: { indent_size: 1 },
+    js: { preserve_newlines: true }
+};
+
+beautify.html(htmlCode, options);
+beautify.css(cssCode, options);
+beautify.js(jsCode, options);
+```

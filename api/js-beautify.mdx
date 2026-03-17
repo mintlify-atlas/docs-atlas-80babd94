@@ -1,0 +1,128 @@
+---
+title: "js_beautify() — JavaScript API"
+description: "Programmatic API for beautifying JavaScript code with js-beautify."
+---
+
+The `js_beautify` function reformats and re-indents JavaScript (and JSON) source code. It is exported as `beautify.js`, `beautify.js_beautify`, and the default export from `js-beautify`.
+
+## Import
+
+<CodeGroup>
+
+```js CommonJS
+const beautify = require('js-beautify');
+
+// All three are equivalent:
+const result = beautify(code, options);          // default export calls js
+const result2 = beautify.js(code, options);
+const result3 = beautify.js_beautify(code, options); // legacy alias
+```
+
+```js CommonJS (named)
+const { js: js_beautify } = require('js-beautify/js');
+
+const result = js_beautify(code, options);
+```
+
+```js ESM
+import beautify from 'js-beautify';
+
+const result = beautify.js(code, options);
+```
+
+</CodeGroup>
+
+## Function signature
+
+```ts
+function js_beautify(code: string, options?: JSBeautifyOptions): string
+```
+
+## Parameters
+
+<ParamField path="code" type="string" required>
+  The JavaScript or JSON source code string to beautify.
+</ParamField>
+
+<ParamField path="options" type="object">
+  Configuration object. All fields are optional. Option names use underscores
+  (e.g., `indent_size`), which correspond to the CLI flag names with dashes
+  replaced by underscores (e.g., `--indent-size`).
+</ParamField>
+
+## Return value
+
+Returns a `string` containing the beautified source code.
+
+## Options
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `indent_size` | number | `4` | Number of spaces per indentation level. |
+| `indent_char` | string | `" "` | Character used for indentation. |
+| `indent_with_tabs` | boolean | `false` | Indent with tabs instead of spaces. Overrides `indent_size` and `indent_char`. |
+| `eol` | string | `"\n"` | End-of-line character(s). Defaults to the first newline found in the file. |
+| `end_with_newline` | boolean | `false` | Ensure the output ends with a newline. |
+| `indent_level` | number | `0` | Initial indentation level. |
+| `preserve_newlines` | boolean | `true` | Preserve existing blank lines in the output. |
+| `max_preserve_newlines` | number | `10` | Maximum consecutive blank lines to preserve. |
+| `space_in_paren` | boolean | `false` | Add padding spaces within parentheses, e.g. `f( a, b )`. |
+| `space_in_empty_paren` | boolean | `false` | Add a single space inside empty parentheses, e.g. `f( )`. |
+| `jslint_happy` | boolean | `false` | Enable jslint-stricter mode. |
+| `space_after_anon_function` | boolean | `false` | Add a space before an anonymous function's parentheses, e.g. `function ()`. |
+| `space_after_named_function` | boolean | `false` | Add a space before a named function's parentheses, e.g. `function foo ()`. |
+| `brace_style` | string | `"collapse"` | Brace placement style. One of `collapse`, `expand`, `end-expand`, `none`, optionally combined with `,preserve-inline`. |
+| `unindent_chained_methods` | boolean | `false` | Do not indent chained method calls. |
+| `break_chained_methods` | boolean | `false` | Break chained method calls across separate lines. |
+| `keep_array_indentation` | boolean | `false` | Preserve array literal indentation. |
+| `unescape_strings` | boolean | `false` | Decode printable characters encoded in `xNN` notation. |
+| `wrap_line_length` | number | `0` | Wrap lines that exceed this many characters. `0` disables wrapping. |
+| `e4x` | boolean | `false` | Pass E4X XML literals through untouched. |
+| `comma_first` | boolean | `false` | Place commas at the beginning of new lines instead of the end. |
+| `operator_position` | string | `"before-newline"` | Position of operators when breaking across lines. One of `before-newline`, `after-newline`, `preserve-newline`. |
+| `indent_empty_lines` | boolean | `false` | Keep indentation on otherwise empty lines. |
+| `templating` | string\|string[] | `["auto"]` | Templating languages to recognise. Any of `auto`, `django`, `erb`, `handlebars`, `php`, `smarty`, `angular`. `auto` means none for JavaScript. |
+| `editorconfig` | boolean | `false` | Load settings from an `.editorconfig` file. |
+| `eval_code` | boolean | `false` | Attempt to beautify code inside `eval()` calls. Not exposed via CLI. |
+| `space_before_conditional` | boolean | `true` | Insert a space before conditional statements. Not exposed via CLI. |
+
+## Example
+
+```js
+const beautify = require('js-beautify');
+
+const ugly = 'function hello(name){if(name){return "Hello, "+name;}return "Hello, world!";}';
+
+const result = beautify.js(ugly, {
+  indent_size: 2,
+  brace_style: 'collapse,preserve-inline',
+  end_with_newline: true,
+});
+
+console.log(result);
+/*
+function hello(name) {
+  if (name) { return "Hello, " + name; }
+  return "Hello, world!";
+}
+*/
+```
+
+## Legacy aliases
+
+The following names refer to the same function and are kept for backwards compatibility:
+
+| Name | Notes |
+|---|---|
+| `require('js-beautify')` | Default export — calls `js_beautify` directly. |
+| `require('js-beautify').js` | Preferred short form. |
+| `require('js-beautify').js_beautify` | Legacy alias. |
+
+## Configuration sources (Node.js only)
+
+When running in Node.js, options are resolved in the following priority order (highest first):
+
+1. Options passed directly to the function call.
+2. `jsbeautify_`-prefixed environment variables.
+3. A `JSON` config file specified via the `--config` CLI flag.
+4. A `.jsbeautifyrc` file found by walking up the directory tree from the current working directory.

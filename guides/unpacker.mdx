@@ -1,0 +1,74 @@
+---
+title: "Script Unpacker"
+description: "js-beautify automatically detects and unpacks scripts packed by Dean Edwards' packer and can partially deobfuscate scripts processed by javascript-obfuscator."
+---
+
+js-beautify can detect and automatically unpack scripts that have been compressed or obfuscated before beautifying them. No special flag or option is needed — detection and unpacking happen transparently as part of the normal beautification process.
+
+## Dean Edwards' p.a.c.k.e.r
+
+[Dean Edwards' packer](http://dean.edwards.name/packer/) is a widely used JavaScript compressor that encodes a script as a string and uses a self-extracting `eval`-based stub to decode it at runtime. The output looks like this:
+
+```js
+eval(function(p,a,c,k,e,r){e=String;if(!''.replace(/^/,String)){while(c--)r[c]=k[c]||c;k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('0 2=1',3,3,'var||a'.split('|'),0,{}))
+```
+
+js-beautify detects this pattern by looking for the characteristic `eval(function(p,a,c,k,e,r){...})` signature. When detected, it unpacks the encoded payload back into readable source before running the beautifier.
+
+**Unpacked and beautified result:**
+
+```js
+var a = 1;
+```
+
+<Note>
+Unpacking is automatic. Simply pass the packed file to `js-beautify` as you would any other script — no extra flags required.
+</Note>
+
+## Partial deobfuscation with javascript-obfuscator
+
+Scripts processed by the [javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator) npm package use a different technique: they hoist all string literals into a single array at the top of the file and replace every occurrence with an indexed lookup like `_0xaaaa[0]`.
+
+A typical obfuscated header looks like:
+
+```js
+var _0x1a2b = ["hello", "world", "console", "log"];
+```
+
+js-beautify detects this pattern (a variable whose name starts with `_0x` followed by an array of strings) and substitutes the original string values back into the code before beautifying. This is a **partial** deobfuscation — control-flow flattening and other transformations applied by the obfuscator are not reversed.
+
+## Supported unpackers
+
+The unpackers bundled with js-beautify cover the most common obfuscation formats encountered in the wild:
+
+<CardGroup cols={2}>
+  <Card title="p.a.c.k.e.r" icon="box">
+    Dean Edwards' eval-based packer. Detected via the `eval(function(p,a,c,k,e,r){...})` pattern.
+  </Card>
+  <Card title="javascript-obfuscator" icon="lock">
+    String-array substitution obfuscation. Detected via `var _0x…​ = [...]` at the start of the file.
+  </Card>
+  <Card title="MyObfuscate" icon="key">
+    Variant eval-based obfuscator with a similar structure to p.a.c.k.e.r.
+  </Card>
+  <Card title="URL-encoded scripts" icon="link">
+    Scripts that have been URL-encoded and wrapped in an `eval(unescape(...))` call.
+  </Card>
+</CardGroup>
+
+## Example workflow
+
+```bash
+# Install globally
+npm -g install js-beautify
+
+# Beautify a packed file — unpacking is automatic
+js-beautify packed-script.js
+
+# Write the result to a file
+js-beautify packed-script.js -o unpacked-script.js
+```
+
+<Tip>
+When beautifying minified third-party code, always check the output for residual obfuscation patterns. js-beautify handles the most common packers, but some commercial obfuscators use proprietary techniques that require manual analysis.
+</Tip>

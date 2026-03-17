@@ -1,0 +1,129 @@
+---
+title: "Options reference"
+description: "Complete reference for all JS Beautify formatting options across JavaScript, CSS, and HTML beautifiers."
+---
+
+Options are passed as an object to the library API, or as CLI flags with dashes instead of underscores. For example, `indent_size` becomes `--indent-size` on the CLI.
+
+<Tip>
+  CLI flag names use dashes (e.g. `--indent-size`). Library option keys use underscores (e.g. `indent_size`). They map 1-to-1.
+</Tip>
+
+## Shared options
+
+These options apply to all three beautifiers (JavaScript, CSS, and HTML).
+
+| Option | CLI flag | Type | Default | Description |
+| --- | --- | --- | --- | --- |
+| `indent_size` | `-s, --indent-size` | integer | `4` | Number of spaces per indentation level. |
+| `indent_char` | `-c, --indent-char` | string | `" "` | Character used for indentation. |
+| `indent_with_tabs` | `-t, --indent-with-tabs` | boolean | `false` | Indent with tabs. Overrides `indent_size` and `indent_char`. |
+| `eol` | `-e, --eol` | string | `"\n"` | Line terminator character(s). Defaults to the first newline found in the file, otherwise `"\n"`. |
+| `end_with_newline` | `-n, --end-with-newline` | boolean | `false` | Ensure output ends with a newline. |
+| `indent_empty_lines` | `--indent-empty-lines` | boolean | `false` | Keep indentation on otherwise empty lines. |
+
+## JavaScript options
+
+These options apply to the JavaScript beautifier only.
+
+| Option | CLI flag | Type | Default | Description |
+| --- | --- | --- | --- | --- |
+| `editorconfig` | `--editorconfig` | boolean | `false` | Use EditorConfig to set formatting options. See [EditorConfig](/configuration/editorconfig). |
+| `indent_level` | `-l, --indent-level` | integer | `0` | Initial indentation level applied to all output. |
+| `preserve_newlines` | `-p, --preserve-newlines` | boolean | `true` | Preserve existing line breaks. Use `--no-preserve-newlines` to disable. |
+| `max_preserve_newlines` | `-m, --max-preserve-newlines` | integer | `10` | Maximum number of consecutive line breaks to preserve. |
+| `space_in_paren` | `-P, --space-in-paren` | boolean | `false` | Add padding spaces inside parentheses: `f( a, b )`. |
+| `space_in_empty_paren` | `-E, --space-in-empty-paren` | boolean | `false` | Add a single space inside empty parentheses: `f( )`. |
+| `jslint_happy` | `-j, --jslint-happy` | boolean | `false` | Enable JSLint-stricter mode. Implies `space_after_anon_function`. |
+| `space_after_anon_function` | `-a, --space-after-anon-function` | boolean | `false` | Add a space before an anonymous function's parentheses: `function ()`. |
+| `space_after_named_function` | `--space-after-named-function` | boolean | `false` | Add a space before a named function's parentheses: `function example ()`. |
+| `brace_style` | `-b, --brace-style` | string | `"collapse"` | Brace placement style. See values below. |
+| `unindent_chained_methods` | `-u, --unindent-chained-methods` | boolean | `false` | Do not indent chained method calls. |
+| `break_chained_methods` | `-B, --break-chained-methods` | boolean | `false` | Break chained method calls onto separate lines. |
+| `keep_array_indentation` | `-k, --keep-array-indentation` | boolean | `false` | Preserve array literal indentation as written. |
+| `unescape_strings` | `-x, --unescape-strings` | boolean | `false` | Decode printable characters encoded in `xNN` notation. |
+| `wrap_line_length` | `-w, --wrap-line-length` | integer | `0` | Wrap lines that exceed this character count. `0` disables wrapping. |
+| `e4x` | `-X, --e4x` | boolean | `false` | Pass E4X XML literals through untouched. |
+| `comma_first` | `-C, --comma-first` | boolean | `false` | Place commas at the beginning of the new line instead of the end. |
+| `operator_position` | `-O, --operator-position` | string | `"before-newline"` | Position of operators when breaking lines. See values below. |
+| `templating` | `--templating` | array | `["auto"]` | Templating languages to handle. `auto` means none in JavaScript. See values below. |
+| `eval_code` | *(not in CLI)* | boolean | `false` | Evaluate code inside `eval()` calls and beautify the result. |
+| `space_before_conditional` | *(not in CLI)* | boolean | `true` | Add a space before conditional statements (`if`, `for`, etc.). |
+
+### `brace_style` values
+
+| Value | Description |
+| --- | --- |
+| `collapse` | Put braces on the same line as control statements (default). |
+| `expand` | Put braces on their own line. |
+| `end-expand` | Put the closing brace on its own line. |
+| `none` | Leave brace placement as-is. |
+| `collapse,preserve-inline` | Collapse braces, but preserve inline blocks on a single line. |
+
+### `operator_position` values
+
+| Value | Description |
+| --- | --- |
+| `before-newline` | Place the operator at the end of the line before a line break (default). |
+| `after-newline` | Place the operator at the beginning of the new line. |
+| `preserve-newline` | Keep the operator position as found in the source. |
+
+### `templating` values
+
+Accepts a comma-separated list or JSON array. In JavaScript, `auto` means no templating. In HTML, `auto` enables all.
+
+`auto`, `none`, `django`, `erb`, `handlebars`, `php`, `smarty`, `angular`
+
+## CSS options
+
+| Option | CLI flag | Type | Default | Description |
+| --- | --- | --- | --- | --- |
+| `indent_size` | `-s, --indent-size` | integer | `4` | Number of spaces per indentation level. |
+| `indent_char` | `-c, --indent-char` | string | `" "` | Character used for indentation. |
+| `indent_with_tabs` | `-t, --indent-with-tabs` | boolean | `false` | Indent with tabs. Overrides `indent_size` and `indent_char`. |
+| `eol` | `-e, --eol` | string | `"\n"` | Line terminator character(s). |
+| `end_with_newline` | `-n, --end-with-newline` | boolean | `false` | Ensure output ends with a newline. |
+| `brace_style` | `-b, --brace-style` | string | `"collapse"` | Brace placement: `collapse` or `expand`. |
+| `selector_separator_newline` | `-L, --selector-separator-newline` | boolean | `true` | Add a newline between multiple selectors. |
+| `newline_between_rules` | `-N, --newline-between-rules` | boolean | `true` | Add a blank line between CSS rules. |
+| `indent_empty_lines` | `--indent-empty-lines` | boolean | `false` | Keep indentation on otherwise empty lines. |
+
+## HTML options
+
+| Option | CLI flag | Type | Default | Description |
+| --- | --- | --- | --- | --- |
+| `indent_size` | `-s, --indent-size` | integer | `4` | Number of spaces per indentation level. |
+| `indent_char` | `-c, --indent-char` | string | `" "` | Character used for indentation. |
+| `indent_with_tabs` | `-t, --indent-with-tabs` | boolean | `false` | Indent with tabs. Overrides `indent_size` and `indent_char`. |
+| `eol` | `-e, --eol` | string | `"\n"` | Line terminator character(s). |
+| `end_with_newline` | `-n, --end-with-newline` | boolean | `false` | Ensure output ends with a newline. |
+| `preserve_newlines` | `-p, --preserve-newlines` | boolean | `true` | Preserve existing line breaks. |
+| `max_preserve_newlines` | `-m, --max-preserve-newlines` | integer | `10` | Maximum number of consecutive line breaks to preserve. |
+| `indent_inner_html` | `-I, --indent-inner-html` | boolean | `false` | Indent the contents of `<head>` and `<body>`. |
+| `brace_style` | `-b, --brace-style` | string | `"collapse"` | Brace placement style. Same values as the JavaScript option. |
+| `indent_scripts` | `-S, --indent-scripts` | string | `"normal"` | Indentation inside `<script>` tags: `normal`, `keep`, or `separate`. |
+| `wrap_line_length` | `-w, --wrap-line-length` | integer | `250` | Wrap lines exceeding this character count. `0` disables wrapping. |
+| `wrap_attributes` | `-A, --wrap-attributes` | string | `"auto"` | How to wrap HTML tag attributes. See values below. |
+| `wrap_attributes_min_attrs` | `-M, --wrap-attributes-min-attrs` | integer | `2` | Minimum number of attributes required to trigger forced wrapping. |
+| `wrap_attributes_indent_size` | `-i, --wrap-attributes-indent-size` | integer | *(indent_size)* | Spaces to indent wrapped attributes. Ignored for `aligned` wrap modes. |
+| `inline` | `-d, --inline` | array | *(HTML inline tags)* | Tags treated as inline elements. |
+| `inline_custom_elements` | `--inline-custom-elements` | boolean | `true` | Treat custom elements (e.g. `<my-component>`) as inline. |
+| `unformatted` | `-U, --unformatted` | array | *(inline tags)* | Tags whose content is not reformatted. |
+| `content_unformatted` | `-T, --content-unformatted` | array | `["pre"]` | Tags whose text content is preserved verbatim. |
+| `extra_liners` | `-E, --extra-liners` | array | `["head","body","/html"]` | Tags that get an extra blank line before them. |
+| `editorconfig` | `--editorconfig` | boolean | `false` | Use EditorConfig to set formatting options. |
+| `unformatted_content_delimiter` | `--unformatted-content-delimiter` | string | `""` | Keep text content together between occurrences of this string. |
+| `indent_empty_lines` | `--indent-empty-lines` | boolean | `false` | Keep indentation on otherwise empty lines. |
+| `templating` | `--templating` | array | `["auto"]` | Templating languages to handle. `auto` enables all in HTML. |
+
+### `wrap_attributes` values
+
+| Value | Description |
+| --- | --- |
+| `auto` | Wrap attributes only when the line exceeds `wrap_line_length` (default). |
+| `force` | Always wrap attributes after the first. |
+| `force-aligned` | Wrap and align all attributes to match the first attribute. |
+| `force-expand-multiline` | Wrap each attribute onto its own line. |
+| `aligned-multiple` | Wrap attributes when there are multiple, aligned to the first. |
+| `preserve` | Preserve existing attribute wrapping. |
+| `preserve-aligned` | Preserve wrapping and align attributes. |

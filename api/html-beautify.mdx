@@ -1,0 +1,134 @@
+---
+title: "html_beautify() — JavaScript API"
+description: "Programmatic API for beautifying HTML code with js-beautify."
+---
+
+The `html_beautify` function reformats and re-indents HTML source code, with awareness of embedded JavaScript and CSS. It is exported as `beautify.html` and `beautify.html_beautify` from the `js-beautify` package.
+
+## Import
+
+<CodeGroup>
+
+```js CommonJS
+const beautify = require('js-beautify');
+
+// Both are equivalent:
+const result = beautify.html(code, options);
+const result2 = beautify.html_beautify(code, options); // legacy alias
+```
+
+```js CommonJS (named)
+const { html: html_beautify } = require('js-beautify/js');
+
+const result = html_beautify(code, options);
+```
+
+```js ESM
+import beautify from 'js-beautify';
+
+const result = beautify.html(code, options);
+```
+
+</CodeGroup>
+
+## Function signature
+
+```ts
+function html_beautify(code: string, options?: HTMLBeautifyOptions): string
+```
+
+## Parameters
+
+<ParamField path="code" type="string" required>
+  The HTML source code string to beautify.
+</ParamField>
+
+<ParamField path="options" type="object">
+  Configuration object. All fields are optional. Option names use underscores
+  (e.g., `indent_size`), corresponding to the CLI flags with dashes or mixed
+  separators replaced by underscores.
+</ParamField>
+
+## Return value
+
+Returns a `string` containing the beautified HTML code.
+
+## Options
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `indent_size` | number | `4` | Number of spaces per indentation level. |
+| `indent_char` | string | `" "` | Character used for indentation. |
+| `indent_with_tabs` | boolean | `false` | Indent with tabs instead of spaces. Overrides `indent_size` and `indent_char`. |
+| `eol` | string | `"\n"` | End-of-line character(s). Defaults to the first newline found in the file. |
+| `end_with_newline` | boolean | `false` | Ensure the output ends with a newline. |
+| `preserve_newlines` | boolean | `true` | Preserve existing blank lines. |
+| `max_preserve_newlines` | number | `10` | Maximum consecutive blank lines to preserve. |
+| `indent_inner_html` | boolean | `false` | Indent `<head>` and `<body>` sections. |
+| `brace_style` | string | `"collapse"` | Brace placement style. One of `collapse`, `collapse-preserve-inline`, `expand`, `end-expand`, `none`. |
+| `indent_scripts` | string | `"normal"` | Indentation of content inside `<script>` tags. One of `keep`, `separate`, `normal`. |
+| `wrap_line_length` | number | `250` | Maximum characters per line. `0` disables wrapping. |
+| `wrap_attributes` | string | `"auto"` | Attribute wrapping strategy. One of `auto`, `force`, `force-aligned`, `force-expand-multiline`, `aligned-multiple`, `preserve`, `preserve-aligned`. |
+| `wrap_attributes_min_attrs` | number | `2` | Minimum number of attributes before force-wrapping is applied. |
+| `wrap_attributes_indent_size` | number | same as `indent_size` | Indentation size for wrapped attributes (ignored when `wrap_attributes` is `"aligned"`). |
+| `inline` | string[] | (HTML inline elements) | List of tag names to treat as inline elements. |
+| `inline_custom_elements` | boolean | `true` | Treat custom elements (e.g. `<my-component>`) as inline. |
+| `unformatted` | string[] | (inline elements) | List of tag names whose opening/closing tags should not be reformatted. |
+| `content_unformatted` | string[] | `["pre"]` | List of tag names whose content should not be reformatted. |
+| `extra_liners` | string[] | `["head", "body", "/html"]` | Tags that receive an extra blank line before them. |
+| `unformatted_content_delimiter` | string | `""` | Keep text content between two occurrences of this string together. |
+| `indent_empty_lines` | boolean | `false` | Keep indentation on otherwise empty lines. |
+| `templating` | string\|string[] | `["auto"]` | Templating languages to recognise. Any of `auto`, `none`, `django`, `erb`, `handlebars`, `php`, `smarty`, `angular`. `auto` means all languages in HTML. |
+| `editorconfig` | boolean | `false` | Load settings from an `.editorconfig` file. |
+
+## Example
+
+```js
+const beautify = require('js-beautify');
+
+const ugly = '<!DOCTYPE html><html><head><title>Test</title></head><body><div class="container"><p>Hello world</p></div></body></html>';
+
+const result = beautify.html(ugly, {
+  indent_size: 2,
+  wrap_line_length: 120,
+  end_with_newline: true,
+});
+
+console.log(result);
+/*
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Test</title>
+</head>
+
+<body>
+  <div class="container">
+    <p>Hello world</p>
+  </div>
+</body>
+
+</html>
+*/
+```
+
+## Legacy aliases
+
+| Name | Notes |
+|---|---|
+| `require('js-beautify').html` | Preferred short form. |
+| `require('js-beautify').html_beautify` | Legacy alias. |
+
+## Configuration sources (Node.js only)
+
+When running in Node.js, options are resolved in the following priority order (highest first):
+
+1. Options passed directly to the function call.
+2. `jsbeautify_`-prefixed environment variables.
+3. A `JSON` config file specified via the `--config` CLI flag.
+4. A `.jsbeautifyrc` file found by walking up the directory tree from the current working directory.
+
+<Note>
+Language-specific overrides in `.jsbeautifyrc` are supported. Place HTML options under an `"html"` key, and use nested `"js"` and `"css"` keys to override settings for scripts and styles embedded in HTML.
+</Note>

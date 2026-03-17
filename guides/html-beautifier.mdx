@@ -1,0 +1,275 @@
+---
+title: "HTML Beautifier"
+description: "A guide to formatting HTML documents with js-beautify, covering indentation, wrapping, inline elements, templating, and more."
+---
+
+The HTML beautifier re-indents and reformats HTML markup. It understands inline vs block elements, embedded scripts and styles, templating languages, and offers fine-grained control over attribute wrapping and unformatted regions.
+
+## Basic usage
+
+<CodeGroup>
+```bash CLI
+html-beautify page.html
+# or
+js-beautify --html page.html
+```
+
+```js Node.js
+var beautify_html = require('js-beautify').html;
+var result = beautify_html(source, { indent_size: 2 });
+```
+
+```js ESM
+import beautify from 'js-beautify';
+var result = beautify.html(source, { indent_size: 2 });
+```
+</CodeGroup>
+
+## Indenting head and body
+
+By default the content of `<head>` and `<body>` is **not** indented relative to the `<html>` tag. Set `indent_inner_html: true` to enable that indent.
+
+<Tabs>
+  <Tab title="Default">
+```html
+<html>
+<head>
+    <title>Page</title>
+</head>
+<body>
+    <p>Hello</p>
+</body>
+</html>
+```
+  </Tab>
+  <Tab title="indent_inner_html: true">
+```html
+<html>
+    <head>
+        <title>Page</title>
+    </head>
+    <body>
+        <p>Hello</p>
+    </body>
+</html>
+```
+  </Tab>
+</Tabs>
+
+```bash
+html-beautify --indent-inner-html page.html
+```
+
+## Indenting embedded scripts
+
+The `indent_scripts` option controls the indentation level used for code inside `<script>` tags.
+
+| Value | Description |
+|---|---|
+| `normal` | Script content is indented one level inside the tag (default) |
+| `keep` | Script content keeps its original indentation relative to the page |
+| `separate` | Script content starts at column zero |
+
+```bash
+html-beautify --indent-scripts keep page.html
+```
+
+## Line wrapping
+
+### wrap_line_length
+
+Set the maximum number of characters per line. The default is `250`; set to `0` to disable wrapping.
+
+```bash
+html-beautify --wrap-line-length 80 page.html
+```
+
+### wrap_attributes
+
+Controls how tag attributes are wrapped onto multiple lines when a tag is long.
+
+| Value | Description |
+|---|---|
+| `auto` | Wrap only when the line exceeds `wrap_line_length` (default) |
+| `force` | Force each attribute onto its own line |
+| `force-aligned` | Force wrap, align all attributes under the first |
+| `force-expand-multiline` | Force wrap, closing `>` on its own line |
+| `aligned-multiple` | Fit as many attributes per line as possible, aligned |
+| `preserve` | Preserve existing attribute line breaks |
+| `preserve-aligned` | Preserve, but align when wrapping |
+
+<Tabs>
+  <Tab title="auto (default)">
+```html
+<input type="text" name="email" id="email" placeholder="Enter email" required>
+```
+  </Tab>
+  <Tab title="force">
+```html
+<input
+    type="text"
+    name="email"
+    id="email"
+    placeholder="Enter email"
+    required>
+```
+  </Tab>
+  <Tab title="force-expand-multiline">
+```html
+<input
+    type="text"
+    name="email"
+    id="email"
+    placeholder="Enter email"
+    required
+>
+```
+  </Tab>
+  <Tab title="force-aligned">
+```html
+<input type="text"
+       name="email"
+       id="email"
+       placeholder="Enter email"
+       required>
+```
+  </Tab>
+</Tabs>
+
+```bash
+html-beautify --wrap-attributes force-expand-multiline page.html
+```
+
+### wrap_attributes_min_attrs
+
+When using a `force`-style wrap mode, this sets the minimum number of attributes a tag must have before wrapping kicks in. The default is `2` — tags with only one attribute are left on one line.
+
+```bash
+html-beautify --wrap-attributes force --wrap-attributes-min-attrs 3 page.html
+```
+
+## Inline elements
+
+Inline elements are not broken onto their own line when they appear inside block content. The default inline element list follows the HTML specification and includes:
+
+```
+a, abbr, area, audio, b, bdi, bdo, br, button, canvas, cite, code, data,
+datalist, del, dfn, em, embed, i, iframe, img, input, ins, kbd, keygen,
+label, map, mark, math, meter, noscript, object, output, progress, q, ruby,
+s, samp, select, small, span, strong, sub, sup, svg, template, textarea,
+time, u, var, video, wbr, text
+```
+
+You can override the list entirely with the `inline` option.
+
+### inline_custom_elements
+
+By default (`true`), custom elements (e.g. `<my-button>`) are treated as inline. Set to `false` to treat them as block elements.
+
+```bash
+html-beautify --no-inline_custom_elements page.html
+```
+
+## Unformatted tags
+
+### unformatted
+
+A list of tags whose opening/closing tags and content are left completely untouched. By default this list is empty (the `inline` list is used instead).
+
+```bash
+html-beautify --unformatted script style page.html
+```
+
+### content_unformatted
+
+A list of tags whose **content** is preserved verbatim, even though the tags themselves are still formatted. Defaults to `["pre", "textarea"]`.
+
+<Tabs>
+  <Tab title="Before">
+```html
+<pre>
+  function hello() {
+    console.log("world");
+  }
+</pre>
+```
+  </Tab>
+  <Tab title="After (pre content preserved)">
+```html
+<pre>
+  function hello() {
+    console.log("world");
+  }
+</pre>
+```
+  </Tab>
+</Tabs>
+
+```bash
+html-beautify --content_unformatted pre textarea script page.html
+```
+
+## Extra liners
+
+The `extra_liners` option lists tags that get an extra blank line inserted before them. Defaults to `["head", "body", "/html"]`.
+
+<Tabs>
+  <Tab title="extra_liners default">
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Page</title>
+</head>
+
+<body>
+    <p>Hello</p>
+</body>
+
+</html>
+```
+  </Tab>
+  <Tab title="extra_liners: []">
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page</title>
+</head>
+<body>
+    <p>Hello</p>
+</body>
+</html>
+```
+  </Tab>
+</Tabs>
+
+```bash
+html-beautify --extra_liners head body /html page.html
+# disable entirely:
+html-beautify --extra_liners "" page.html
+```
+
+## Templating language support
+
+The `templating` option tells the beautifier which templating languages may appear in the HTML so that template tags are left intact. In HTML mode the default `auto` enables all supported engines.
+
+| Value | Description |
+|---|---|
+| `auto` | Enable all templating engines (default for HTML) |
+| `none` | Treat the file as plain HTML |
+| `django` | Django / Jinja2 `{{ }}` and `{% %}` tags |
+| `erb` | Ruby ERB `<% %>` tags |
+| `handlebars` | Handlebars / Mustache `{{ }}` blocks |
+| `php` | PHP `<?php ?>` tags |
+| `smarty` | Smarty `{* *}` and `{ }` delimiters |
+| `angular` | Angular template expressions |
+
+```bash
+html-beautify --templating django,erb template.html
+```
+
+<Note>
+In JavaScript mode `auto` means **none** — templating detection is disabled. In HTML mode `auto` enables all engines listed above.
+</Note>

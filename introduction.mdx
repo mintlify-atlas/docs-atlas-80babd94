@@ -1,0 +1,45 @@
+---
+title: "Introduction"
+description: "JS Beautify reformats and re-indents JavaScript, CSS, and HTML — available as a Node.js library, Python package, CLI tool, and web browser script."
+---
+
+JS Beautify is an open-source code formatter that handles JavaScript, CSS, and HTML. It re-indents minified or uglified code into a readable format, unpacks scripts packed by Dean Edward's popular packer, and can partially deobfuscate scripts processed by [javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator).
+
+Try it in your browser at [beautifier.io](https://beautifier.io/).
+
+## What it beautifies
+
+<CardGroup cols={3}>
+  <Card title="JavaScript" icon="square-js" href="/guides/javascript-beautifier">
+    Reformat JS, JSON, and JSX. Configurable indentation, brace style, operator position, and more.
+  </Card>
+  <Card title="CSS" icon="css3-alt" href="/guides/css-beautifier">
+    Reformat CSS, SCSS, and Less. Control selector newlines, rule spacing, and indentation.
+  </Card>
+  <Card title="HTML" icon="html5" href="/guides/html-beautifier">
+    Reformat HTML with control over tag inlining, attribute wrapping, and script indentation.
+  </Card>
+</CardGroup>
+
+## Key capabilities
+
+**Script unpacking** — Detects and unpacks scripts packed by Dean Edward's popular packer, and partially deobfuscates output from javascript-obfuscator.
+
+**Beautify directives** — Control the beautifier from inside your source files using inline comments. Use `/* beautify ignore:start */` to skip sections the beautifier cannot parse, or `/* beautify preserve:start */` to retain existing formatting for valid code sections.
+
+**EditorConfig support** — Pass `--editorconfig` (or set `editorconfig: true` in options) and JS Beautify reads your `.editorconfig` file to align formatting rules with your editor settings.
+
+**Language-specific overrides** — Apply different indentation and formatting rules per language in a single `.jsbeautifyrc` config file. Embedded `<script>` and `<style>` blocks inside HTML can inherit their own rules.
+
+**Multiple runtimes** — Runs in Node.js (>=14), Python, and directly in the browser via CDN script tags.
+
+## Get started
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/installation">
+    Install via npm, pip, or load from a CDN.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Beautify your first file in under a minute.
+  </Card>
+</CardGroup>

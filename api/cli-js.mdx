@@ -1,0 +1,108 @@
+---
+title: "js-beautify CLI"
+description: "Command-line reference for the js-beautify JavaScript beautifier."
+---
+
+The `js-beautify` command beautifies JavaScript and JSON files. Install it globally via npm to use it from any directory.
+
+```bash
+npm install -g js-beautify
+```
+
+## Usage
+
+```bash
+js-beautify [options] [file ...]
+```
+
+Pass `-` as the file name to read from stdin. Beautified output is written to stdout unless `--replace` or `--outfile` is specified.
+
+```bash
+# Beautify a file to stdout
+js-beautify app.js
+
+# Beautify in-place
+js-beautify --replace app.js
+
+# Read from stdin, write to stdout
+echo 'var x={a:1}' | js-beautify -f -
+
+# Write to an output file
+js-beautify app.js --outfile app.pretty.js
+
+# Use a custom config file
+js-beautify --config .jsbeautifyrc app.js
+```
+
+## CLI flags
+
+### General options
+
+| Flag | Short | Description | Default |
+|---|---|---|---|
+| `--file` | `-f` | Input file(s). Pass `-` for stdin. | — |
+| `--replace` | `-r` | Write output in-place, replacing the input file. | — |
+| `--outfile` | `-o` | Write output to a file instead of stdout. | stdout |
+| `--config` | | Path to a JSON config file. | — |
+| `--type` | | Beautifier type to run: `js`, `css`, or `html`. Does not filter files. | `js` |
+| `--quiet` | `-q` | Suppress logging to stdout. | — |
+| `--help` | `-h` | Show help message. | — |
+| `--version` | `-v` | Show the installed version. | — |
+
+### Beautifier options
+
+| Flag | Short | Description | Default |
+|---|---|---|---|
+| `--indent-size` | `-s` | Number of spaces per indentation level. | `4` |
+| `--indent-char` | `-c` | Character used for indentation. | `" "` |
+| `--indent-with-tabs` | `-t` | Indent with tabs. Overrides `--indent-size` and `--indent-char`. | — |
+| `--eol` | `-e` | End-of-line character(s). | first newline in file, otherwise `\n` |
+| `--end-with-newline` | `-n` | End output with a newline. | — |
+| `--editorconfig` | | Use EditorConfig to set up options. | — |
+| `--indent-level` | `-l` | Initial indentation level. | `0` |
+| `--preserve-newlines` | `-p` | Preserve line-breaks. Use `--no-preserve-newlines` to disable. | enabled |
+| `--max-preserve-newlines` | `-m` | Maximum line-breaks to preserve in one chunk. | `10` |
+| `--space-in-paren` | `-P` | Add padding spaces within parentheses, e.g. `f( a, b )`. | — |
+| `--space-in-empty-paren` | `-E` | Add a single space inside empty parentheses, e.g. `f( )`. | — |
+| `--jslint-happy` | `-j` | Enable jslint-stricter mode. | — |
+| `--space-after-anon-function` | `-a` | Add a space before an anonymous function's parens, e.g. `function ()`. | — |
+| `--space-after-named-function` | | Add a space before a named function's parens, e.g. `function foo ()`. | — |
+| `--brace-style` | `-b` | Brace placement: `collapse`, `expand`, `end-expand`, `none`, optionally with `,preserve-inline`. | `collapse,preserve-inline` |
+| `--unindent-chained-methods` | `-u` | Do not indent chained method calls. | — |
+| `--break-chained-methods` | `-B` | Break chained method calls across subsequent lines. | — |
+| `--keep-array-indentation` | `-k` | Preserve array literal indentation. | — |
+| `--unescape-strings` | `-x` | Decode printable characters encoded in `xNN` notation. | — |
+| `--wrap-line-length` | `-w` | Wrap lines that exceed N characters. `0` disables. | `0` |
+| `--e4x` | `-X` | Pass E4X XML literals through untouched. | — |
+| `--good-stuff` | | Warm the cockles of Crockford's heart. | — |
+| `--comma-first` | `-C` | Place commas at the beginning of new lines instead of the end. | — |
+| `--operator-position` | `-O` | Position of operators when line-breaking: `before-newline`, `after-newline`, `preserve-newline`. | `before-newline` |
+| `--indent-empty-lines` | | Keep indentation on otherwise empty lines. | — |
+| `--templating` | | Comma-separated list of templating languages: `auto`, `django`, `erb`, `handlebars`, `php`, `smarty`, `angular`. | `auto` |
+
+## Configuration file
+
+Options can also be provided via a `.jsbeautifyrc` JSON file at any level of the filesystem above the current working directory, or via `jsbeautify_`-prefixed environment variables.
+
+CLI flag names map to option keys by replacing dashes with underscores:
+
+```json
+{
+  "indent_size": 2,
+  "brace_style": "collapse,preserve-inline",
+  "end_with_newline": true,
+  "templating": ["auto"]
+}
+```
+
+To apply settings only to specific language types, nest them under a `"js"`, `"css"`, or `"html"` key:
+
+```json
+{
+  "indent_size": 4,
+  "js": {
+    "indent_size": 2,
+    "preserve_newlines": true
+  }
+}
+```

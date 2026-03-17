@@ -1,80 +1,182 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Beautify JavaScript, CSS, and HTML in under a minute using the Node.js library, CLI, or Python."
 ---
 
-## Get started in three steps
+Get up and running with JS Beautify quickly. Choose your preferred runtime below.
 
-Get your documentation site running locally and make your first customization.
+<Tabs>
+  <Tab title="Node.js Library">
+    <Steps>
+      <Step title="Install">
+        ```bash
+        npm install js-beautify
+        ```
+      </Step>
+      <Step title="Beautify JavaScript">
+        <CodeGroup>
+          ```js ESM
+          import beautify from 'js-beautify';
 
-### Step 1: Set up your local environment
+          const ugly = 'function sayHello(name){if(name){console.log("Hello, "+name);}else{console.log("Hello, World!");}}';
+          const result = beautify.js(ugly, { indent_size: 2 });
+          console.log(result);
+          ```
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+          ```js CommonJS
+          const beautify = require('js-beautify');
 
-### Step 2: Deploy your changes
+          const ugly = 'function sayHello(name){if(name){console.log("Hello, "+name);}else{console.log("Hello, World!");}}';
+          const result = beautify.js(ugly, { indent_size: 2 });
+          console.log(result);
+          ```
+        </CodeGroup>
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+        Output:
+        ```js
+        function sayHello(name) {
+          if (name) {
+            console.log("Hello, " + name);
+          } else {
+            console.log("Hello, World!");
+          }
+        }
+        ```
+      </Step>
+      <Step title="Beautify CSS">
+        ```js
+        import beautify from 'js-beautify';
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+        const ugly = '.container{display:flex;flex-direction:column;}.header{background:#fbc826;color:#2a2a2a;}';
+        const result = beautify.css(ugly, { indent_size: 2 });
+        console.log(result);
+        ```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+        Output:
+        ```css
+        .container {
+          display: flex;
+          flex-direction: column;
+        }
 
-### Step 3: Go live
+        .header {
+          background: #fbc826;
+          color: #2a2a2a;
+        }
+        ```
+      </Step>
+      <Step title="Beautify HTML">
+        ```js
+        import beautify from 'js-beautify';
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+        const ugly = '<html><head><title>Hello</title></head><body><h1>Hello World</h1><p>Welcome.</p></body></html>';
+        const result = beautify.html(ugly, { indent_size: 2 });
+        console.log(result);
+        ```
+
+        Output:
+        ```html
+        <html>
+          <head>
+            <title>Hello</title>
+          </head>
+
+          <body>
+            <h1>Hello World</h1>
+            <p>Welcome.</p>
+          </body>
+        </html>
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="CLI">
+    <Steps>
+      <Step title="Install globally">
+        ```bash
+        npm install -g js-beautify
+        ```
+      </Step>
+      <Step title="Beautify a file">
+        ```bash
+        # Print beautified output to stdout
+        js-beautify foo.js
+
+        # Replace file in-place
+        js-beautify -r foo.js
+
+        # Write to a different file
+        js-beautify foo.js -o foo-beautified.js
+        ```
+      </Step>
+      <Step title="Beautify CSS and HTML">
+        ```bash
+        # Using dedicated commands
+        css-beautify styles.css -r
+        html-beautify index.html -r
+
+        # Using the --type flag
+        js-beautify --type css styles.css
+        js-beautify --type html index.html
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Python">
+    <Steps>
+      <Step title="Install">
+        ```bash
+        # For JavaScript
+        pip install jsbeautifier
+
+        # For CSS
+        pip install cssbeautifier
+        ```
+      </Step>
+      <Step title="Beautify JavaScript">
+        ```python
+        import jsbeautifier
+
+        # Beautify a string
+        res = jsbeautifier.beautify('function foo(){return 42;}')
+        print(res)
+
+        # Beautify with options
+        opts = jsbeautifier.default_options()
+        opts.indent_size = 2
+        res = jsbeautifier.beautify('function foo(){return 42;}', opts)
+        print(res)
+        ```
+      </Step>
+      <Step title="Beautify a file">
+        ```python
+        import jsbeautifier
+
+        res = jsbeautifier.beautify_file('foo.js')
+        print(res)
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+<Tip>
+  CLI option names use dashes (e.g. `--indent-size`) while library option names use underscores (e.g. `indent_size`). They refer to the same options.
+</Tip>
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
-
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Configuration options" icon="sliders" href="/configuration/options">
+    Explore all available formatting options for JS, CSS, and HTML.
+  </Card>
+  <Card title=".jsbeautifyrc" icon="file-code" href="/configuration/jsbeautifyrc">
+    Set up a project-level config file so you don't repeat options.
+  </Card>
+  <Card title="Beautify directives" icon="wand-magic-sparkles" href="/guides/directives">
+    Control formatting behavior from within your source files.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api/js-beautify">
+    Full API reference for all three beautifiers.
+  </Card>
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>

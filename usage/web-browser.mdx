@@ -1,0 +1,117 @@
+---
+title: "Web browser"
+description: "Load js-beautify via CDN script tags and call js_beautify, css_beautify, and html_beautify directly in the browser."
+---
+
+You can use JS Beautify directly in a web page by loading script tags from [cdnjs](https://cdnjs.com/libraries/js-beautify). No build step or npm install required.
+
+## Include the scripts
+
+Add the script tags for the beautifiers you need. You can include one, two, or all three:
+
+<CodeGroup>
+
+```html standard
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify-css.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify-html.js"></script>
+```
+
+```html minified
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify-css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify-html.min.js"></script>
+```
+
+</CodeGroup>
+
+Each script tag exposes a global function:
+
+| Script file | Global function |
+| ----------- | --------------- |
+| `beautify.js` | `js_beautify` |
+| `beautify-css.js` | `css_beautify` |
+| `beautify-html.js` | `html_beautify` |
+
+## Call the functions
+
+All three functions accept `(code, options)` and return a formatted string.
+
+```js
+// Beautify JavaScript
+var result = js_beautify('function x(){return 1}', { indent_size: 2 });
+
+// Beautify CSS
+var result = css_beautify('body{margin:0;padding:0}', { indent_size: 2 });
+
+// Beautify HTML
+var result = html_beautify('<div><p>Hello</p></div>', { indent_size: 2 });
+```
+
+## Example: beautify a JSON string
+
+```js
+const options = { indent_size: 2, space_in_empty_paren: true };
+
+const dataObj = { completed: false, id: 1, title: 'delectus aut autem', userId: 1 };
+const dataJson = JSON.stringify(dataObj);
+
+const result = js_beautify(dataJson, options);
+console.log(result);
+// {
+//   "completed": false,
+//   "id": 1,
+//   "title": "delectus aut autem",
+//   "userId": 1,
+// }
+```
+
+## Complete HTML example
+
+A minimal working page that beautifies a JSON string on load:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Beautify example</title>
+  </head>
+  <body>
+    <pre id="output"></pre>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify.min.js"></script>
+    <script>
+      const options = { indent_size: 2 };
+      const raw = '{"name":"Alice","age":30,"active":true}';
+      const formatted = js_beautify(raw, options);
+      document.getElementById('output').textContent = formatted;
+    </script>
+  </body>
+</html>
+```
+
+## Older versions
+
+Swap the version number in the CDN URL to load a different release:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify.min.js"></script>
+```
+
+See all available versions on the [cdnjs page for js-beautify](https://cdnjs.com/libraries/js-beautify).
+
+<Note>
+  cdnjs is a free, community-supported service. For production use cases that require guaranteed uptime, consider hosting the scripts yourself or using a paid CDN.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration options" icon="sliders" href="/configuration/options">
+    Full reference of all formatting options you can pass to the beautifier functions.
+  </Card>
+  <Card title="Node.js library" icon="node-js" href="/usage/node-library">
+    Use js-beautify as a Node.js library in server-side code.
+  </Card>
+</CardGroup>

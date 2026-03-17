@@ -1,0 +1,75 @@
+---
+title: "css-beautify CLI"
+description: "Command-line reference for the css-beautify CSS beautifier."
+---
+
+The `css-beautify` command beautifies CSS files. It is equivalent to running `js-beautify --type css`. Install it globally via npm — it is included with the `js-beautify` package.
+
+```bash
+npm install -g js-beautify
+```
+
+## Usage
+
+```bash
+css-beautify [options] [file ...]
+```
+
+Pass `-` as the file name to read from stdin. Beautified output is written to stdout unless `--replace` or `--outfile` is specified.
+
+```bash
+# Beautify a file to stdout
+css-beautify styles.css
+
+# Beautify in-place
+css-beautify --replace styles.css
+
+# Read from stdin
+echo 'body{margin:0;padding:0;}' | css-beautify -f -
+
+# Write to an output file
+css-beautify styles.css --outfile styles.pretty.css
+```
+
+<Info>
+`css-beautify` accepts all the same general CLI options as `js-beautify` (`--file`, `--replace`, `--outfile`, `--config`, `--quiet`, `--help`, `--version`). The flags listed below are the CSS-specific beautifier options.
+</Info>
+
+## CSS beautifier flags
+
+| Flag | Short | Description | Default |
+|---|---|---|---|
+| `--indent-size` | `-s` | Number of spaces per indentation level. | `4` |
+| `--indent-char` | `-c` | Character used for indentation. | `" "` |
+| `--indent-with-tabs` | `-t` | Indent with tabs. Overrides `--indent-size` and `--indent-char`. | — |
+| `--eol` | `-e` | End-of-line character(s). | `\n` |
+| `--end-with-newline` | `-n` | End output with a newline. | — |
+| `--brace-style` | `-b` | Brace placement: `collapse` or `expand`. | `collapse` |
+| `--selector-separator-newline` | `-L` | Add a newline between multiple selectors. | — |
+| `--newline-between-rules` | `-N` | Add a blank line between CSS rules. | — |
+| `--indent-empty-lines` | | Keep indentation on otherwise empty lines. | — |
+
+## Examples
+
+```bash
+# 2-space indent, blank lines between rules
+css-beautify --indent-size 2 --newline-between-rules styles.css
+
+# Tabs, selectors on separate lines
+css-beautify --indent-with-tabs --selector-separator-newline styles.css
+```
+
+## Configuration file
+
+Options can be provided via a `.jsbeautifyrc` JSON file. CSS-specific settings can be nested under a `"css"` key:
+
+```json
+{
+  "indent_size": 4,
+  "css": {
+    "indent_size": 2,
+    "newline_between_rules": true,
+    "selector_separator_newline": true
+  }
+}
+```

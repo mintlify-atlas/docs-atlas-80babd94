@@ -1,0 +1,158 @@
+---
+title: "Contributing"
+description: "How to report issues, implement fixes, and submit pull requests to js-beautify."
+---
+
+Contributions to js-beautify are welcome and appreciated. The project maintains two parallel implementations — JavaScript and Python — and contributors are needed to keep both in sync, fix bugs, and add new features.
+
+<Note>
+  Before filing a pull request, consider opening an issue first. This gives maintainers a chance to discuss design details with you before you invest time writing code.
+</Note>
+
+## Prerequisites
+
+Before you start, make sure you have the following installed:
+
+<CardGroup cols={2}>
+  <Card title="Node.js" icon="node">
+    v16.x or greater (with npm)
+  </Card>
+  <Card title="Python" icon="python">
+    v3.7 or greater (with pip)
+  </Card>
+  <Card title="make" icon="hammer">
+    GNU Make
+  </Card>
+  <Card title="bash" icon="terminal">
+    A bash-compatible shell
+  </Card>
+</CardGroup>
+
+## Development Setup
+
+<Steps>
+  <Step title="Fork and clone the repository">
+    Fork [beautifier/js-beautify](https://github.com/beautifier/js-beautify) on GitHub, then clone your fork locally.
+
+    ```bash
+    git clone https://github.com/<your-username>/js-beautify.git
+    cd js-beautify
+    ```
+  </Step>
+
+  <Step title="Familiarize yourself with the project structure">
+    The repository holds two mostly identical implementations of the beautifiers. Review the folder layout before making changes:
+
+    | Folder     | Contents |
+    |------------|----------|
+    | `js/`      | JavaScript implementation of the beautifiers |
+    | `python/`  | Python implementation of the beautifiers |
+    | `web/`     | Source for [beautifier.io](https://beautifier.io/) |
+    | `test/`    | Test data and support files used to generate implementation-specific tests |
+
+  </Step>
+
+  <Step title="Make your changes">
+    Edit the implementation(s) relevant to your fix or feature. If you change the JavaScript implementation, you **must** also apply the equivalent change to Python, and vice versa. See [Feature Parity](#feature-parity) below.
+  </Step>
+
+  <Step title="Add tests">
+    Add test cases to `/test/data/*/test.js` that cover your changes. Generated test files are checked in alongside the test data files — include all changed files in your commit.
+  </Step>
+
+  <Step title="Build and test locally">
+    Run the appropriate make target before submitting.
+  </Step>
+
+  <Step title="Submit a pull request">
+    Run `make ci` locally after committing but before opening the PR. Include a description of the change and, where possible, examples of input and expected output.
+  </Step>
+</Steps>
+
+## Running Tests
+
+### JavaScript
+
+```bash
+# Build and run unit tests for the JavaScript implementation
+make js
+
+# Manually test changes in the browser at http://localhost:8080
+make serve
+
+# Load the debug (human-readable) build
+# Open: http://localhost:8080/?debug
+
+# Run style checks and generate/run tests
+make jstest
+```
+
+### Python
+
+```bash
+# Build and run unit tests for the Python implementation
+make py
+
+# Run style checks and generate/run tests
+make pytest
+```
+
+### Both Implementations
+
+```bash
+# Run style checks and generate/run tests on both implementations
+make
+
+# Run full CI checks (run this before opening a PR)
+make ci
+```
+
+## Feature Parity
+
+Any change made to one implementation **must** also be made to the other. This is a firm requirement.
+
+<Note>
+  The entire HTML beautifier is JavaScript-only — it is the standing exception to the parity rule and a reminder of what happens when parity is not maintained. Every other change must be ported to both implementations.
+</Note>
+
+The two implementations are intentionally kept very similar. Neither Python nor JavaScript is particularly hard to follow. If you get stuck porting a change, open a pull request and the maintainers can help you work through it.
+
+## Pull Request Process
+
+1. **Run `make ci` locally** after your last commit and before opening the PR. The PR does not need to be green to be opened, but it will not be merged until all checks pass.
+2. **Describe your changes.** Include examples of input and expected output where relevant.
+3. **Pass all platform checks.** PRs are tested on Linux and Windows across multiple versions of Node.js and Python via CI.
+
+## Reporting Issues
+
+If you find a bug, [open an issue on GitHub](https://github.com/beautifier/js-beautify/issues). Include:
+
+- Your environment (OS, Node.js version, Python version)
+- The input that triggers the problem
+- The current (broken) output
+- The expected (correct) output
+
+The more detail you provide, the faster someone can act on it.
+
+Looking for a good starting point? Browse issues labeled [**Good first issue**](https://github.com/beautifier/js-beautify/labels/good%20first%20issue).
+
+## Code of Conduct
+
+This project follows the [Contributor Covenant Code of Conduct](https://github.com/beautifier/js-beautify/blob/main/CODE_OF_CONDUCT.md). All contributors are expected to:
+
+- Use welcoming and inclusive language
+- Be respectful of differing viewpoints and experiences
+- Gracefully accept constructive criticism
+- Focus on what is best for the community
+
+Instances of unacceptable behavior may be reported to **team@beautifier.io**.
+
+## Branch Structure
+
+| Branch       | Purpose |
+|--------------|---------|
+| `main`       | Primary development branch |
+| `release`    | Holds releases, including built files for bower and the website |
+| `attic-*`    | Archived branches (PHP, other languages) — significantly out of date |
+
+Each release is tagged in the `release` branch when published to npm and PyPI.

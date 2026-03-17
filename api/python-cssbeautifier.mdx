@@ -1,0 +1,225 @@
+---
+title: "cssbeautifier — Python API"
+description: "Programmatic API for beautifying CSS code with the cssbeautifier Python package."
+---
+
+The `cssbeautifier` package is a Python port of js-beautify's CSS formatter. It reformats and re-indents CSS source code.
+
+<Note>
+  `cssbeautifier` is a separate package from `jsbeautifier`. Install it independently with `pip install cssbeautifier`.
+</Note>
+
+## Installation
+
+```bash
+pip install cssbeautifier
+```
+
+## Functions
+
+### `beautify(string, opts=None)`
+
+Beautify a CSS string and return the formatted result.
+
+```python
+import cssbeautifier
+
+result = cssbeautifier.beautify('a{color:red;font-size:14px}')
+print(result)
+# a {
+#     color: red;
+#     font-size: 14px
+# }
+```
+
+<ParamField path="string" type="str" required>
+  The CSS source code to beautify.
+</ParamField>
+
+<ParamField path="opts" type="BeautifierOptions | None" default="None">
+  An options object returned by `default_options()`, or `None` to use defaults.
+</ParamField>
+
+**Returns:** `str` — the beautified CSS source.
+
+---
+
+### `beautify_file(file_name, opts=None)`
+
+Read a file from disk and return its beautified contents.
+
+```python
+import cssbeautifier
+
+result = cssbeautifier.beautify_file('styles.css')
+```
+
+Pass `"-"` as `file_name` to read from `stdin`.
+
+<ParamField path="file_name" type="str" required>
+  Path to the CSS file to beautify. Pass `"-"` to read from stdin.
+</ParamField>
+
+<ParamField path="opts" type="BeautifierOptions | None" default="None">
+  An options object returned by `default_options()`, or `None` to use defaults.
+</ParamField>
+
+**Returns:** `str` — the beautified CSS source.
+
+---
+
+### `default_options()`
+
+Return a `BeautifierOptions` instance pre-populated with all default values. Mutate the attributes you want to change before passing the object to `beautify()` or `beautify_file()`.
+
+```python
+import cssbeautifier
+
+opts = cssbeautifier.default_options()
+opts.indent_size = 2
+opts.newline_between_rules = False
+
+result = cssbeautifier.beautify('a{color:red}', opts)
+```
+
+**Returns:** `BeautifierOptions`
+
+---
+
+## Options reference
+
+All option names use underscores and match the CLI flag names (with dashes replaced by underscores). For example, `--indent-size` becomes `indent_size`.
+
+### Indentation
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `indent_size` | `int` | `4` | Number of spaces per indentation level. |
+| `indent_char` | `str` | `" "` | Character used for indentation. |
+| `indent_with_tabs` | `bool` | `False` | Indent with tabs instead of spaces. Overrides `indent_size` and `indent_char`. |
+| `indent_level` | `int` | `0` | Initial indentation level applied to all output. |
+| `indent_empty_lines` | `bool` | `False` | Keep indentation on otherwise empty lines. |
+
+### Line endings
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `eol` | `str` | `"\n"` | Line terminator character(s). Defaults to the first newline found in the file, otherwise `"\n"`. |
+| `end_with_newline` | `bool` | `False` | Append a newline at the end of the output. |
+
+### Newline preservation
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `preserve_newlines` | `bool` | `True` | Preserve existing line breaks in the source. |
+| `max_preserve_newlines` | `int` | `32786` | Maximum consecutive blank lines to preserve in a single chunk. |
+
+### Selectors & rules
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `selector_separator_newline` | `bool` | `True` | Print each selector in a multi-selector rule on its own line. |
+| `newline_between_rules` | `bool` | `True` | Add an empty line between CSS rules. |
+
+### Brace style
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `brace_style` | `str` | `"collapse"` | Brace placement style. Accepted values: `collapse`, `expand`. |
+
+### Combinators & spacing
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `space_around_combinator` | `bool` | `False` | Print spaces around CSS combinators (`>`, `~`, `+`). |
+
+### Line wrapping
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `wrap_line_length` | `int` | `0` | Wrap lines that exceed this character count. `0` disables wrapping. |
+
+## Examples
+
+### Basic beautify
+
+```python
+import cssbeautifier
+
+result = cssbeautifier.beautify('.btn{display:inline-block;padding:8px 16px;background:blue}')
+print(result)
+# .btn {
+#     display: inline-block;
+#     padding: 8px 16px;
+#     background: blue
+# }
+```
+
+### Beautify with custom options
+
+```python
+import cssbeautifier
+
+opts = cssbeautifier.default_options()
+opts.indent_size = 2
+opts.newline_between_rules = True
+opts.selector_separator_newline = True
+
+result = cssbeautifier.beautify('h1,h2{color:red}p{margin:0}', opts)
+print(result)
+# h1,
+# h2 {
+#   color: red
+# }
+#
+# p {
+#   margin: 0
+# }
+```
+
+### Beautify a file
+
+```python
+import cssbeautifier
+
+opts = cssbeautifier.default_options()
+opts.indent_size = 2
+opts.end_with_newline = True
+
+result = cssbeautifier.beautify_file('styles.css', opts)
+with open('styles.css', 'w') as f:
+    f.write(result)
+```
+
+### Expand brace style
+
+```python
+import cssbeautifier
+
+opts = cssbeautifier.default_options()
+opts.brace_style = 'expand'
+
+result = cssbeautifier.beautify('a { color: red }', opts)
+```
+
+### Pass options as a dict
+
+You can also pass a plain dictionary instead of a `BeautifierOptions` object:
+
+```python
+import cssbeautifier
+
+result = cssbeautifier.beautify('a{color:red}', {'indent_size': 2})
+```
+
+## Command-line usage
+
+The package also installs a `css-beautify` script:
+
+```bash
+css-beautify styles.css
+css-beautify --indent-size 2 --end-with-newline styles.css
+css-beautify -r styles.css   # replace in-place
+```
+
+Run `css-beautify --help` for the full list of flags.

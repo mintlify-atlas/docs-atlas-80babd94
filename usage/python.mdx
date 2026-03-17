@@ -1,0 +1,152 @@
+---
+title: "Python usage"
+description: "Use the jsbeautifier and cssbeautifier Python packages to format JavaScript and CSS programmatically or from the command line."
+---
+
+JS Beautify provides two Python packages: `jsbeautifier` for JavaScript and `cssbeautifier` for CSS.
+
+<Warning>
+  The Python `jsbeautifier` package only reformats JavaScript — it does not handle CSS or HTML. Install `cssbeautifier` separately for CSS support. Neither package handles HTML.
+</Warning>
+
+## Installation
+
+<CodeGroup>
+
+```bash jsbeautifier
+pip install jsbeautifier
+```
+
+```bash cssbeautifier
+pip install cssbeautifier
+```
+
+</CodeGroup>
+
+## Beautify JavaScript
+
+### Beautify a string
+
+```python
+import jsbeautifier
+
+result = jsbeautifier.beautify('function add(a,b){return a+b;}')
+print(result)
+# function add(a, b) {
+#     return a + b;
+# }
+```
+
+### Beautify a file
+
+```python
+import jsbeautifier
+
+result = jsbeautifier.beautify_file('some_file.js')
+print(result)
+```
+
+### Beautify with options
+
+```python
+import jsbeautifier
+
+opts = jsbeautifier.default_options()
+opts.indent_size = 2
+opts.space_in_empty_paren = True
+
+result = jsbeautifier.beautify('some JavaScript', opts)
+print(result)
+```
+
+<Tip>
+  Option names in Python use underscores and match the CLI flag names with dashes replaced by underscores. For example, `--indent-size 2 --space-in-empty-paren` becomes `opts.indent_size = 2` and `opts.space_in_empty_paren = True`.
+</Tip>
+
+## Beautify CSS
+
+The `cssbeautifier` package follows the same API as `jsbeautifier`.
+
+### Beautify a string
+
+```python
+import cssbeautifier
+
+result = cssbeautifier.beautify('body{margin:0;padding:0}')
+print(result)
+# body {
+#     margin: 0;
+#     padding: 0;
+# }
+```
+
+### Beautify a file
+
+```python
+import cssbeautifier
+
+result = cssbeautifier.beautify_file('style.css')
+print(result)
+```
+
+### Beautify with options
+
+```python
+import cssbeautifier
+
+opts = cssbeautifier.default_options()
+opts.indent_size = 2
+opts.end_with_newline = True
+
+result = cssbeautifier.beautify('body{margin:0}', opts)
+print(result)
+```
+
+## CLI usage
+
+Both packages install a `js-beautify` command. Beautified output goes to `stdout` by default.
+
+```bash
+js-beautify file.js
+```
+
+Pass `-` to read from stdin:
+
+```bash
+echo 'function x(){return 1}' | js-beautify -
+```
+
+Common flags work the same as the Node.js CLI:
+
+```bash
+# 2-space indentation
+js-beautify -s 2 file.js
+
+# Replace the file in place
+js-beautify -r file.js
+
+# Write output to a file
+js-beautify file.js -o file.pretty.js
+```
+
+## Available API functions
+
+| Function | Description |
+| -------- | ----------- |
+| `jsbeautifier.beautify(string, opts)` | Beautify a JavaScript string. |
+| `jsbeautifier.beautify_file(filename, opts)` | Read and beautify a JavaScript file. |
+| `jsbeautifier.default_options()` | Return a default options object. |
+| `cssbeautifier.beautify(string, opts)` | Beautify a CSS string. |
+| `cssbeautifier.beautify_file(filename, opts)` | Read and beautify a CSS file. |
+| `cssbeautifier.default_options()` | Return a default options object. |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration options" icon="sliders" href="/configuration/options">
+    Full reference of all formatting options and their defaults.
+  </Card>
+  <Card title="CLI usage" icon="rectangle-terminal" href="/usage/cli">
+    Full list of CLI flags for the js-beautify command.
+  </Card>
+</CardGroup>

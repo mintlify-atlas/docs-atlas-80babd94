@@ -1,0 +1,82 @@
+---
+title: "EditorConfig"
+description: "Use a .editorconfig file to drive JS Beautify indentation and line-ending settings alongside your editor."
+---
+
+[EditorConfig](https://editorconfig.org/) is a standard file format for defining coding styles across editors and tools. When you enable EditorConfig support, JS Beautify reads your `.editorconfig` file and applies the matching rules before any other JS Beautify options take effect.
+
+## Enabling EditorConfig
+
+Pass the `--editorconfig` CLI flag:
+
+```bash
+js-beautify --editorconfig foo.js
+html-beautify --editorconfig index.html
+```
+
+Or set it in your config file or API options:
+
+```json .jsbeautifyrc
+{
+    "editorconfig": true
+}
+```
+
+```js Node.js
+import beautify from 'js-beautify';
+
+beautify.js(code, { editorconfig: true });
+```
+
+<Note>
+  `editorconfig` is available for the JavaScript and HTML beautifiers. It is not supported for CSS.
+</Note>
+
+## Supported properties
+
+JS Beautify reads the following EditorConfig properties and maps them to its own options:
+
+| EditorConfig property | Maps to JS Beautify option | Notes |
+| --- | --- | --- |
+| `indent_style` | `indent_with_tabs` / `indent_char` | `tab` sets `indent_with_tabs: true`; `space` sets `indent_char: " "`. |
+| `indent_size` | `indent_size` | Number of spaces per level. |
+| `tab_width` | `indent_size` | Used when `indent_style = tab`. |
+| `end_of_line` | `eol` | `lf` → `"\n"`, `crlf` → `"\r\n"`, `cr` → `"\r"`. |
+| `max_line_length` | `wrap_line_length` | Maximum characters per line before wrapping. |
+
+## Example `.editorconfig`
+
+```ini .editorconfig
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.js]
+max_line_length = 100
+
+[Makefile]
+indent_style = tab
+```
+
+With this file and `--editorconfig`, JS Beautify uses 2-space indentation and `\n` line endings for JavaScript files, and tab indentation for `Makefile`.
+
+## Option precedence
+
+EditorConfig properties have lower precedence than explicit JS Beautify options. If you set `indent_size: 4` in your `.jsbeautifyrc` alongside `editorconfig: true`, the `.jsbeautifyrc` value wins.
+
+The full precedence order from highest to lowest:
+
+1. CLI arguments
+2. `jsbeautify_`-prefixed environment variables
+3. File passed via `--config` / `.jsbeautifyrc`
+4. EditorConfig
+
+<Tip>
+  Use EditorConfig to establish project-wide baseline settings and reserve `.jsbeautifyrc` for JS Beautify-specific options that EditorConfig does not cover, such as `brace_style` or `wrap_attributes`.
+</Tip>

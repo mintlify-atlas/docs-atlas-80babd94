@@ -1,0 +1,85 @@
+---
+title: "Installation"
+description: "Install JS Beautify via npm for Node.js, pip for Python, or load it directly in the browser from a CDN."
+---
+
+<Info>
+  The Node.js package requires **Node.js >= 14**.
+</Info>
+
+<Steps>
+  <Step title="Choose your runtime">
+    JS Beautify is available for Node.js, Python, and the browser. Pick the installation method that matches your environment.
+
+    <CodeGroup>
+
+    ```bash npm (local library)
+    npm install js-beautify
+    ```
+
+    ```bash npm (global CLI)
+    npm install -g js-beautify
+    ```
+
+    ```bash pip (JavaScript formatter)
+    pip install jsbeautifier
+    ```
+
+    ```bash pip (CSS formatter)
+    pip install cssbeautifier
+    ```
+
+    </CodeGroup>
+
+    <Note>
+      The Python `jsbeautifier` package only reformats JavaScript. Install `cssbeautifier` separately for CSS support. Neither package handles HTML.
+    </Note>
+  </Step>
+
+  <Step title="Verify the installation">
+    After a global npm install, confirm the CLI is available:
+
+    ```bash
+    js-beautify --version
+    ```
+
+    For a local npm install, verify the package is present:
+
+    ```bash
+    node -e "require('js-beautify'); console.log('ok')"
+    ```
+  </Step>
+</Steps>
+
+## Browser (CDN)
+
+Load JS Beautify directly on a web page using script tags from cdnjs. Include only the files you need:
+
+```html
+<!-- JavaScript beautifier -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify.js"></script>
+
+<!-- CSS beautifier -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify-css.js"></script>
+
+<!-- HTML beautifier -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify-html.js"></script>
+```
+
+Minified versions are also available:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify-css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify-html.min.js"></script>
+```
+
+The script tags expose three global functions: `js_beautify`, `css_beautify`, and `html_beautify`.
+
+## Beta / next release
+
+To install a pre-release or release candidate version from npm:
+
+```bash
+npm install js-beautify@next
+```

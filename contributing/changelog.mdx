@@ -1,0 +1,123 @@
+---
+title: "Changelog"
+description: "Release history for js-beautify, including fixes, features, and dependency updates."
+---
+
+This page summarizes recent releases of js-beautify. The current stable version is **v1.15.4**.
+
+For the complete history, see the [full changelog on GitHub](https://github.com/beautifier/js-beautify/blob/main/CHANGELOG.md).
+
+<AccordionGroup>
+
+  <Accordion title="v1.15.4" defaultOpen>
+    - Downgrade `nopt` to v7.x to maintain Node.js v14 compatibility ([#2358](https://github.com/beautifier/js-beautify/issues/2358))
+  </Accordion>
+
+  <Accordion title="v1.15.3">
+    - Fix Node 18 support by downgrading `glob` to v10 ([#2350](https://github.com/beautifier/js-beautify/pull/2350))
+  </Accordion>
+
+  <Accordion title="v1.15.2">
+    - Patch SNYK-JS-CROSSSPAWN-8303230 vulnerability brought in through old `glob` package ([#2328](https://github.com/beautifier/js-beautify/issues/2328))
+    - Release wheels on PyPI ([#2313](https://github.com/beautifier/js-beautify/issues/2313))
+    - Fix `ModuleNotFoundError: No module named 'setuptools.command.test'` with latest setuptools ([#2301](https://github.com/beautifier/js-beautify/issues/2301))
+    - Python: compatible with `setuptools>=72` ([#2300](https://github.com/beautifier/js-beautify/issues/2300))
+  </Accordion>
+
+  <Accordion title="v1.15.1">
+    - Turn new Angular templating off by default in HTML ([#2247](https://github.com/beautifier/js-beautify/pull/2247))
+    - Fix performance regression introduced in v1.15.0 ([#2246](https://github.com/beautifier/js-beautify/issues/2246))
+  </Accordion>
+
+  <Accordion title="v1.15.0">
+    - Add formatting support for Angular control flow syntax (`@if`, `@for`, etc.) ([#2221](https://github.com/beautifier/js-beautify/pull/2221))
+  </Accordion>
+
+  <Accordion title="v1.14.11">
+    - Fix broken [beautifier.io](https://beautifier.io/) editor ([#2201](https://github.com/beautifier/js-beautify/issues/2201))
+    - Set minimum Node.js version to v14 ([#2169](https://github.com/beautifier/js-beautify/pull/2169))
+    - Fix invalid prettification of objects with Unicode escape characters as keys ([#2159](https://github.com/beautifier/js-beautify/issues/2159))
+    - Fix invalid JSON generation with `wrap_line_length` ([#1932](https://github.com/beautifier/js-beautify/issues/1932))
+  </Accordion>
+
+  <Accordion title="v1.14.9">
+    - Bump `semver` and `editorconfig` dependencies ([#2161](https://github.com/beautifier/js-beautify/pull/2161))
+    - Add option to configure custom elements as inline elements ([#2113](https://github.com/beautifier/js-beautify/issues/2113))
+  </Accordion>
+
+  <Accordion title="v1.14.8">
+    - Require Node.js v12 or greater ([#2151](https://github.com/beautifier/js-beautify/pull/2151))
+    - CSS: generic variable support for `insideNonNestedAtRule` ([#2147](https://github.com/beautifier/js-beautify/pull/2147))
+    - Add support for new CSS record types ([#2118](https://github.com/beautifier/js-beautify/pull/2118))
+    - Fix: semicolon followed by block statement missing newline ([#2117](https://github.com/beautifier/js-beautify/pull/2117))
+    - Fix formatting related to the `<menu>` element ([#2114](https://github.com/beautifier/js-beautify/pull/2114))
+    - Fix incorrect handling of `(function(){code();{code}})()` ([#1852](https://github.com/beautifier/js-beautify/issues/1852))
+  </Accordion>
+
+  <Accordion title="v1.14.7">
+    - Fix HTML formatter breaking layout by introducing unwanted newlines ([#1989](https://github.com/beautifier/js-beautify/issues/1989))
+  </Accordion>
+
+  <Accordion title="v1.14.6">
+    - Fix globs no longer working on Windows (regression from v1.14.5) ([#2093](https://github.com/beautifier/js-beautify/issues/2093))
+  </Accordion>
+
+  <Accordion title="v1.14.5">
+    - Dependency updates and website UI tweaks ([#2088](https://github.com/beautifier/js-beautify/pull/2088))
+    - Bump `terser` from 5.12.1 to 5.14.2 ([#2084](https://github.com/beautifier/js-beautify/pull/2084))
+    - Add dark mode to the web editor ([#2057](https://github.com/beautifier/js-beautify/issues/2057))
+  </Accordion>
+
+  <Accordion title="v1.14.4">
+    - Fix extra space added before `!important` ([#2056](https://github.com/beautifier/js-beautify/issues/2056))
+    - Fix CSS formatter removing space after quoted values ([#2051](https://github.com/beautifier/js-beautify/issues/2051))
+    - Add `grid-template-areas` to `NON_SEMICOLON_NEWLINE_PROPERTY` list ([#2035](https://github.com/beautifier/js-beautify/pull/2035))
+    - Add support for Sass `@use` syntax ([#1976](https://github.com/beautifier/js-beautify/issues/1976))
+    - Fix Handlebars block with whitespace control (e.g. `{{~#if true ~}}`) ([#1988](https://github.com/beautifier/js-beautify/issues/1988))
+    - Fix `space_after_named_function` not working inside ES6 classes ([#1622](https://github.com/beautifier/js-beautify/issues/1622))
+    - Fix improper line concatenation between `return` and a prefix expression ([#1095](https://github.com/beautifier/js-beautify/issues/1095))
+  </Accordion>
+
+  <Accordion title="v1.14.3">
+    - LESS: fix spacing when an object literal lives inside a mixin ([#2017](https://github.com/beautifier/js-beautify/pull/2017))
+    - Fix overindentation when using `class` as an object key ([#1838](https://github.com/beautifier/js-beautify/issues/1838))
+    - Fix CSS Grid template formatting with track size after line names ([#1817](https://github.com/beautifier/js-beautify/issues/1817))
+    - Fix SCSS `@use` module system issue ([#1798](https://github.com/beautifier/js-beautify/issues/1798))
+    - Fix `space_in_empty_paren` failing for class methods ([#1151](https://github.com/beautifier/js-beautify/issues/1151))
+    - Fix LESS mixins getting formatted strangely ([#722](https://github.com/beautifier/js-beautify/issues/722))
+  </Accordion>
+
+  <Accordion title="v1.14.0">
+    - Fix `import.meta` appearing on a new line ([#1978](https://github.com/beautifier/js-beautify/issues/1978))
+    - Add logical assignment operators; fix parsing of optional chaining ([#1888](https://github.com/beautifier/js-beautify/issues/1888))
+    - Allow numeric literals with underscores (e.g. `1_000_000`) ([#1836](https://github.com/beautifier/js-beautify/issues/1836))
+    - Fix `selector_separator_newline` adding erroneous newline on `@extend` in SCSS ([#1799](https://github.com/beautifier/js-beautify/issues/1799))
+  </Accordion>
+
+  <Accordion title="v1.13.x series">
+    **v1.13.13**
+    - Fix IE11 compatibility failure introduced in v1.13.5 ([#1918](https://github.com/beautifier/js-beautify/issues/1918))
+
+    **v1.13.11**
+    - Add support for short PHP tags ([#1840](https://github.com/beautifier/js-beautify/issues/1840))
+
+    **v1.13.6**
+    - Fix `space-before-conditional: false` on switch-case statements ([#1881](https://github.com/beautifier/js-beautify/pull/1881))
+    - Add support for optional chaining `obj?.[expr]` ([#1801](https://github.com/beautifier/js-beautify/issues/1801))
+
+    **v1.13.1**
+    - Fix `max_preserve_newlines` not working in `beautify_css.js` ([#1863](https://github.com/beautifier/js-beautify/issues/1863))
+    - Fix React Fragment short syntax `<></>` ([#1854](https://github.com/beautifier/js-beautify/issues/1854))
+    - Add basic Smarty templating support ([#1820](https://github.com/beautifier/js-beautify/issues/1820))
+    - Add support for tagged template literals ([#1244](https://github.com/beautifier/js-beautify/issues/1244))
+
+    **v1.13.0**
+    - Refactor Python `cssbeautifier` to reuse `jsbeautifier` CLI methods ([#1832](https://github.com/beautifier/js-beautify/pull/1832))
+    - Fix `pip install cssbeautifier` ([#1830](https://github.com/beautifier/js-beautify/pull/1830))
+  </Accordion>
+
+</AccordionGroup>
+
+<Tip>
+  View the [complete changelog on GitHub](https://github.com/beautifier/js-beautify/blob/main/CHANGELOG.md) for all historical releases prior to v1.13.
+</Tip>

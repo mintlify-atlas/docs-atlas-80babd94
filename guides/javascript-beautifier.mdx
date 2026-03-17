@@ -1,0 +1,275 @@
+---
+title: "JavaScript Beautifier"
+description: "A guide to formatting JavaScript code with js-beautify, covering brace styles, operator position, spacing, and more."
+---
+
+The JavaScript beautifier reformats and re-indents JavaScript source code. You can call it from the CLI, use it as a Node.js library, or run it in the browser.
+
+## Basic usage
+
+<CodeGroup>
+```bash CLI
+js-beautify foo.js
+```
+
+```js Node.js
+var beautify = require('js-beautify').js;
+var result = beautify(source, { indent_size: 2 });
+```
+
+```js ESM
+import beautify from 'js-beautify';
+var result = beautify.js(source, { indent_size: 2 });
+```
+</CodeGroup>
+
+## Brace styles
+
+The `brace_style` option controls where opening and closing braces are placed. The default is `collapse`.
+
+| Value | Description |
+|---|---|
+| `collapse` | Opening brace on same line as the statement (default) |
+| `expand` | Opening and closing braces each on their own line |
+| `end-expand` | Opening brace on same line, closing brace on its own line |
+| `none` | Leave brace placement unchanged |
+
+You can append `,preserve-inline` to any style to keep one-liner blocks on a single line.
+
+<Tabs>
+  <Tab title="collapse (default)">
+```js
+if (x) {
+    foo();
+} else {
+    bar();
+}
+```
+  </Tab>
+  <Tab title="expand">
+```js
+if (x)
+{
+    foo();
+}
+else
+{
+    bar();
+}
+```
+  </Tab>
+  <Tab title="end-expand">
+```js
+if (x) {
+    foo();
+}
+else {
+    bar();
+}
+```
+  </Tab>
+  <Tab title="collapse,preserve-inline">
+```js
+// Short blocks are kept on one line
+if (x) { foo(); } else { bar(); }
+
+// Longer blocks still wrap normally
+if (x) {
+    foo();
+    baz();
+} else {
+    bar();
+}
+```
+  </Tab>
+</Tabs>
+
+```bash
+js-beautify --brace-style expand foo.js
+```
+
+## Operator position
+
+The `operator_position` option controls where binary operators land when a line is broken across multiple lines.
+
+| Value | Description |
+|---|---|
+| `before-newline` | Operator stays at end of the line before the break (default) |
+| `after-newline` | Operator moves to the start of the next line |
+| `preserve-newline` | Respect the existing placement in the source |
+
+<Tabs>
+  <Tab title="before-newline (default)">
+```js
+var res = a +
+    b +
+    c;
+```
+  </Tab>
+  <Tab title="after-newline">
+```js
+var res = a
+    + b
+    + c;
+```
+  </Tab>
+</Tabs>
+
+```bash
+js-beautify --operator-position after-newline foo.js
+```
+
+## Spacing inside parentheses
+
+Two options control padding spaces inside parentheses.
+
+### space_in_paren
+
+Adds a space after the opening paren and before the closing paren for non-empty argument lists.
+
+<Tabs>
+  <Tab title="Before">
+```js
+foo(a, b);
+if(x) {}
+```
+  </Tab>
+  <Tab title="After (space_in_paren: true)">
+```js
+foo( a, b );
+if( x ) {}
+```
+  </Tab>
+</Tabs>
+
+### space_in_empty_paren
+
+Adds a single space inside parens when the argument list is empty.
+
+<Tabs>
+  <Tab title="Before">
+```js
+foo();
+function bar() {}
+```
+  </Tab>
+  <Tab title="After (space_in_empty_paren: true)">
+```js
+foo( );
+function bar( ) {}
+```
+  </Tab>
+</Tabs>
+
+```bash
+js-beautify --space-in-paren --space-in-empty-paren foo.js
+```
+
+## jslint_happy mode
+
+Enabling `jslint_happy` enforces stricter formatting that satisfies JSLint. The main effect is that it implies `space_after_anon_function: true`, adding a space between the `function` keyword and the opening paren in anonymous functions.
+
+<Tabs>
+  <Tab title="Default">
+```js
+var fn = function() {
+    return 1;
+};
+
+setTimeout(function() {
+    doWork();
+}, 100);
+```
+  </Tab>
+  <Tab title="jslint_happy: true">
+```js
+var fn = function () {
+    return 1;
+};
+
+setTimeout(function () {
+    doWork();
+}, 100);
+```
+  </Tab>
+</Tabs>
+
+```bash
+js-beautify --jslint-happy foo.js
+```
+
+## Preserving newlines
+
+Two options work together to control how blank lines in your source are handled.
+
+| Option | Default | Description |
+|---|---|---|
+| `preserve_newlines` | `true` | Retain blank lines from the original source |
+| `max_preserve_newlines` | `10` | Maximum consecutive blank lines to keep |
+
+Set `preserve_newlines` to `false` to let the beautifier normalize all whitespace entirely, or lower `max_preserve_newlines` to a small value (e.g. `1` or `2`) to collapse runs of blank lines.
+
+```bash
+js-beautify --no-preserve-newlines foo.js
+js-beautify --max-preserve-newlines 1 foo.js
+```
+
+## comma_first
+
+The `comma_first` option moves list commas to the beginning of each new line rather than the end of the previous line.
+
+<Tabs>
+  <Tab title="Default (comma_first: false)">
+```js
+var obj = {
+    a: 1,
+    b: 2,
+    c: 3
+};
+```
+  </Tab>
+  <Tab title="comma_first: true">
+```js
+var obj = {
+    a: 1
+  , b: 2
+  , c: 3
+};
+```
+  </Tab>
+</Tabs>
+
+```bash
+js-beautify --comma-first foo.js
+```
+
+## Formatting JSON
+
+The JavaScript beautifier works equally well on JSON, since JSON is a subset of JavaScript.
+
+<Tabs>
+  <Tab title="Before">
+```js
+{"completed":false,"id":1,"title":"delectus aut autem","userId":1}
+```
+  </Tab>
+  <Tab title="After">
+```js
+{
+    "completed": false,
+    "id": 1,
+    "title": "delectus aut autem",
+    "userId": 1
+}
+```
+  </Tab>
+</Tabs>
+
+```js
+const options = { indent_size: 2 };
+const pretty = js_beautify(JSON.stringify(dataObj), options);
+```
+
+<Note>
+For pretty-printing JSON at the command line, you can pipe through `js-beautify` or use `js-beautify --type js` on a `.json` file.
+</Note>

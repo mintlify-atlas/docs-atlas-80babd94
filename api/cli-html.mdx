@@ -1,0 +1,99 @@
+---
+title: "html-beautify CLI"
+description: "Command-line reference for the html-beautify HTML beautifier."
+---
+
+The `html-beautify` command beautifies HTML files. It is equivalent to running `js-beautify --type html`. Install it globally via npm — it is included with the `js-beautify` package.
+
+```bash
+npm install -g js-beautify
+```
+
+## Usage
+
+```bash
+html-beautify [options] [file ...]
+```
+
+Pass `-` as the file name to read from stdin. Beautified output is written to stdout unless `--replace` or `--outfile` is specified.
+
+```bash
+# Beautify a file to stdout
+html-beautify index.html
+
+# Beautify in-place
+html-beautify --replace index.html
+
+# Read from stdin
+cat index.html | html-beautify -f -
+
+# Write to an output file
+html-beautify index.html --outfile index.pretty.html
+```
+
+<Info>
+`html-beautify` accepts all the same general CLI options as `js-beautify` (`--file`, `--replace`, `--outfile`, `--config`, `--quiet`, `--help`, `--version`). The flags listed below are the HTML-specific beautifier options.
+</Info>
+
+## HTML beautifier flags
+
+| Flag | Short | Description | Default |
+|---|---|---|---|
+| `--indent-size` | `-s` | Number of spaces per indentation level. | `4` |
+| `--indent-char` | `-c` | Character used for indentation. | `" "` |
+| `--indent-with-tabs` | `-t` | Indent with tabs. Overrides `--indent-size` and `--indent-char`. | — |
+| `--eol` | `-e` | End-of-line character(s). | `\n` |
+| `--end-with-newline` | `-n` | End output with a newline. | — |
+| `--preserve-newlines` | `-p` | Preserve existing line-breaks. Use `--no-preserve-newlines` to disable. | enabled |
+| `--max-preserve-newlines` | `-m` | Maximum consecutive line-breaks to preserve. | `10` |
+| `--indent-inner-html` | `-I` | Indent `<head>` and `<body>` sections. | — |
+| `--brace-style` | `-b` | Brace placement: `collapse`, `collapse-preserve-inline`, `expand`, `end-expand`, `none`. | `collapse` |
+| `--indent-scripts` | `-S` | Indentation of `<script>` tag content: `keep`, `separate`, `normal`. | `normal` |
+| `--wrap-line-length` | `-w` | Maximum characters per line. `0` disables. | `250` |
+| `--wrap-attributes` | `-A` | Attribute wrapping strategy: `auto`, `force`, `force-aligned`, `force-expand-multiline`, `aligned-multiple`, `preserve`, `preserve-aligned`. | `auto` |
+| `--wrap-attributes-min-attrs` | `-M` | Minimum number of attributes before force-wrapping applies. | `2` |
+| `--wrap-attributes-indent-size` | `-i` | Indentation size for wrapped attributes (ignored when `wrap-attributes` is `"aligned"`). | `indent-size` |
+| `--inline` | `-d` | Comma-separated list of tag names to treat as inline elements. | — |
+| `--inline_custom_elements` | | Treat custom elements as inline. | `true` |
+| `--unformatted` | `-U` | Comma-separated list of tags whose opening/closing tags should not be reformatted (defaults to inline tags). | — |
+| `--content_unformatted` | `-T` | Comma-separated list of tags whose content should not be reformatted. | `pre` |
+| `--extra_liners` | `-E` | Comma-separated list of tags that receive an extra blank line before them. | `head,body,/html` |
+| `--editorconfig` | | Use EditorConfig to set up options. | — |
+| `--indent_scripts` | | Sets indent level inside script tags: `normal`, `keep`, `separate`. | — |
+| `--unformatted_content_delimiter` | | Keep text content between two occurrences of this string together. | `""` |
+| `--indent-empty-lines` | | Keep indentation on otherwise empty lines. | — |
+| `--templating` | | Comma-separated list of templating languages: `auto`, `none`, `django`, `erb`, `handlebars`, `php`, `smarty`, `angular`. | `auto` |
+
+## Examples
+
+```bash
+# 2-space indent, wrap at 120 characters
+html-beautify --indent-size 2 --wrap-line-length 120 index.html
+
+# Force-wrap attributes, preserve newlines
+html-beautify --wrap-attributes force-aligned --preserve-newlines index.html
+
+# Indent inner html and end with newline
+html-beautify --indent-inner-html --end-with-newline index.html
+```
+
+## Configuration file
+
+Options can be provided via a `.jsbeautifyrc` JSON file. HTML-specific settings can be nested under an `"html"` key, with further nesting for embedded `"js"` and `"css"`:
+
+```json
+{
+  "indent_size": 4,
+  "html": {
+    "indent_size": 2,
+    "wrap_line_length": 120,
+    "indent_inner_html": true,
+    "js": {
+      "indent_size": 2
+    },
+    "css": {
+      "indent_size": 2
+    }
+  }
+}
+```

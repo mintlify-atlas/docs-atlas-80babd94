@@ -1,0 +1,187 @@
+---
+title: "Node.js library"
+description: "Use js-beautify as a Node.js library to format JavaScript, CSS, and HTML programmatically."
+---
+
+After installing the `js-beautify` package locally, you can import and call the beautifier directly from your Node.js code. All three beautifier methods share the same signature: `beautify(code, options)`.
+
+## Import the library
+
+<CodeGroup>
+
+```js ESM
+import beautify from 'js-beautify';
+
+beautify.js(code, options);
+beautify.css(code, options);
+beautify.html(code, options);
+```
+
+```js CJS
+var beautify = require('js-beautify');
+
+beautify.js(code, options);
+beautify.css(code, options);
+beautify.html(code, options);
+```
+
+</CodeGroup>
+
+<Tip>
+  CLI option names use dashes (e.g. `--indent-size`), while library option keys use underscores (e.g. `indent_size`). They map 1-to-1.
+</Tip>
+
+## Beautify JavaScript
+
+<CodeGroup>
+
+```js ESM
+import beautify from 'js-beautify';
+
+const ugly = 'function add(a,b){return a+b;}';
+const result = beautify.js(ugly, { indent_size: 2, space_in_empty_paren: true });
+
+console.log(result);
+// function add(a, b) {
+//   return a + b;
+// }
+```
+
+```js CJS
+var beautify = require('js-beautify/js').js;
+
+var ugly = 'function add(a,b){return a+b;}';
+var result = beautify(ugly, { indent_size: 2, space_in_empty_paren: true });
+
+console.log(result);
+// function add(a, b) {
+//   return a + b;
+// }
+```
+
+</CodeGroup>
+
+## Beautify CSS
+
+<CodeGroup>
+
+```js ESM
+import beautify from 'js-beautify';
+
+const ugly = 'body{margin:0;padding:0;font-family:sans-serif}';
+const result = beautify.css(ugly, { indent_size: 2 });
+
+console.log(result);
+// body {
+//   margin: 0;
+//   padding: 0;
+//   font-family: sans-serif;
+// }
+```
+
+```js CJS
+var beautify_css = require('js-beautify').css;
+
+var ugly = 'body{margin:0;padding:0;font-family:sans-serif}';
+var result = beautify_css(ugly, { indent_size: 2 });
+
+console.log(result);
+// body {
+//   margin: 0;
+//   padding: 0;
+//   font-family: sans-serif;
+// }
+```
+
+</CodeGroup>
+
+## Beautify HTML
+
+<CodeGroup>
+
+```js ESM
+import beautify from 'js-beautify';
+
+const ugly = '<div><p>Hello<strong>world</strong></p></div>';
+const result = beautify.html(ugly, { indent_size: 2 });
+
+console.log(result);
+// <div>
+//   <p>Hello<strong>world</strong></p>
+// </div>
+```
+
+```js CJS
+var beautify_html = require('js-beautify').html;
+
+var ugly = '<div><p>Hello<strong>world</strong></p></div>';
+var result = beautify_html(ugly, { indent_size: 2 });
+
+console.log(result);
+// <div>
+//   <p>Hello<strong>world</strong></p>
+// </div>
+```
+
+</CodeGroup>
+
+## Read a file and beautify it
+
+<CodeGroup>
+
+```js ESM
+import beautify from 'js-beautify';
+import { readFile } from 'fs/promises';
+
+const data = await readFile('foo.js', 'utf8');
+const result = beautify.js(data, { indent_size: 2, space_in_empty_paren: true });
+console.log(result);
+```
+
+```js CJS
+var beautify = require('js-beautify/js').js;
+var fs = require('fs');
+
+fs.readFile('foo.js', 'utf8', function (err, data) {
+  if (err) {
+    throw err;
+  }
+  console.log(beautify(data, { indent_size: 2, space_in_empty_paren: true }));
+});
+```
+
+</CodeGroup>
+
+## Available import aliases
+
+The following `require` expressions are all equivalent:
+
+```js
+// JavaScript beautifier
+var beautify_js = require('js-beautify');           // default export is js
+var beautify_js = require('js-beautify').js;
+var beautify_js = require('js-beautify').js_beautify;
+
+// CSS beautifier
+var beautify_css = require('js-beautify').css;
+var beautify_css = require('js-beautify').css_beautify;
+
+// HTML beautifier
+var beautify_html = require('js-beautify').html;
+var beautify_html = require('js-beautify').html_beautify;
+```
+
+<Note>
+  The default export (`require('js-beautify')` without a property) is the JavaScript beautifier. Call `.css` or `.html` explicitly for those languages.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration options" icon="sliders" href="/configuration/options">
+    Full reference of all indentation, brace style, and formatting options.
+  </Card>
+  <Card title=".jsbeautifyrc" icon="file-code" href="/configuration/jsbeautifyrc">
+    Store options in a config file instead of passing them on every call.
+  </Card>
+</CardGroup>

@@ -1,0 +1,147 @@
+---
+title: "CLI usage"
+description: "Run js-beautify, css-beautify, and html-beautify from the command line to format files or stdin."
+---
+
+When installed globally, JS Beautify provides three CLI commands: `js-beautify`, `css-beautify`, and `html-beautify`. Beautified output goes to `stdout` by default.
+
+```bash
+npm install -g js-beautify
+```
+
+## Basic usage
+
+```bash
+# Format a JavaScript file and print to stdout
+js-beautify foo.js
+
+# Format a CSS file
+css-beautify style.css
+
+# Format an HTML file
+html-beautify index.html
+```
+
+You can also use the `--type` flag with the `js-beautify` command instead of the dedicated aliases:
+
+```bash
+js-beautify --type css style.css
+js-beautify --type html index.html
+```
+
+## Common flags
+
+| Flag | Short | Description |
+| ---- | ----- | ----------- |
+| `--file` | `-f` | Input file. Pass `-` to read from stdin. |
+| `--replace` | `-r` | Write output back to the input file (in place). |
+| `--outfile` | `-o` | Write output to a specific file instead of stdout. |
+| `--type` | | Select beautifier type: `js`, `css`, or `html`. |
+| `--indent-size` | `-s` | Number of spaces per indentation level (default `4`). |
+| `--indent-with-tabs` | `-t` | Indent with tabs instead of spaces. |
+| `--quiet` | `-q` | Suppress log output to stdout. |
+| `--config` | | Path to a JSON config file. |
+| `--version` | `-v` | Print the version number. |
+| `--help` | `-h` | Show help text. |
+
+<Tip>
+  CLI option names use dashes (e.g. `--indent-size`), while library option keys use underscores (e.g. `indent_size`). They map 1-to-1.
+</Tip>
+
+## Write output to a file
+
+Use `-o` / `--outfile` to write the result to a file instead of printing to stdout:
+
+```bash
+js-beautify foo.js -o foo.pretty.js
+```
+
+## Replace a file in place
+
+Use `-r` / `--replace` to overwrite the source file with the beautified output:
+
+```bash
+js-beautify -r foo.js
+```
+
+<Warning>
+  `--replace` overwrites the file without creating a backup. Commit or back up your files before running this.
+</Warning>
+
+## Read from stdin
+
+Pass `-` as the filename to read from stdin:
+
+```bash
+cat foo.js | js-beautify -f -
+
+# Or with a pipe directly
+echo 'function x(){return 1}' | js-beautify -f -
+```
+
+## CSS and HTML aliases
+
+`css-beautify` and `html-beautify` are standalone commands that are equivalent to passing `--type css` or `--type html` to `js-beautify`:
+
+<CodeGroup>
+
+```bash css-beautify
+css-beautify style.css
+css-beautify -r style.css
+css-beautify style.css -o style.pretty.css
+```
+
+```bash html-beautify
+html-beautify index.html
+html-beautify -r index.html
+html-beautify index.html -o index.pretty.html
+```
+
+```bash js-beautify --type flag
+js-beautify --type css style.css
+js-beautify --type html index.html
+```
+
+</CodeGroup>
+
+## Beautifier options via CLI
+
+Pass formatting options directly as flags:
+
+```bash
+# 2-space indentation
+js-beautify -s 2 foo.js
+
+# Indent with tabs
+js-beautify -t foo.js
+
+# Add padding spaces inside parentheses: f( a, b )
+js-beautify --space-in-paren foo.js
+
+# End output with a newline
+js-beautify --end-with-newline foo.js
+
+# Collapse brace style
+js-beautify --brace-style collapse foo.js
+```
+
+## Load config from a file
+
+Pass a JSON config file with `--config`:
+
+```bash
+js-beautify --config .jsbeautifyrc foo.js
+```
+
+Alternatively, place a `.jsbeautifyrc` file anywhere in the directory tree above your working directory and it will be picked up automatically. See [.jsbeautifyrc](/configuration/jsbeautifyrc) for the format.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration options" icon="sliders" href="/configuration/options">
+    Full reference of all available CLI flags and their defaults.
+  </Card>
+  <Card title=".jsbeautifyrc" icon="file-code" href="/configuration/jsbeautifyrc">
+    Store options in a config file to avoid repeating flags.
+  </Card>
+</CardGroup>
