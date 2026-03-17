@@ -1,0 +1,109 @@
+{
+  "projectType": "sdk-library",
+  "projectName": "JS Beautify",
+  "projectDescription": "A JavaScript, CSS, and HTML beautifier available as a Node.js library, Python package, CLI tool, and web browser library.",
+  "theme": "palm",
+  "primaryColor": "#fbc826",
+  "lightColor": "#04c754",
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Usage",
+            "pages": [
+              "usage/node-library",
+              "usage/cli",
+              "usage/python",
+              "usage/web-browser"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/options",
+              "configuration/jsbeautifyrc",
+              "configuration/editorconfig",
+              "configuration/language-overrides"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/javascript-beautifier",
+              "guides/css-beautifier",
+              "guides/html-beautifier",
+              "guides/directives",
+              "guides/unpacker"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "contributing/overview",
+              "contributing/changelog"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "JavaScript API",
+            "pages": [
+              "api/js-beautify",
+              "api/css-beautify",
+              "api/html-beautify"
+            ]
+          },
+          {
+            "group": "CLI Reference",
+            "pages": [
+              "api/cli-js",
+              "api/cli-css",
+              "api/cli-html"
+            ]
+          },
+          {
+            "group": "Python API",
+            "pages": [
+              "api/python-jsbeautifier",
+              "api/python-cssbeautifier"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "JavaScript, CSS, and HTML beautification/formatting",
+    "Available as Node.js library, Python package, CLI tool, and web browser script",
+    "Highly configurable with extensive options for indentation, brace style, line wrapping, and more",
+    "EditorConfig integration for consistent style across editors",
+    ".jsbeautifyrc config file support with language-specific overrides",
+    "Beautify directives (ignore/preserve) to control formatting within source files",
+    "Unpacks scripts packed by Dean Edward's packer and partially deobfuscates obfuscated scripts",
+    "Templating language support (Django, ERB, Handlebars, PHP, Smarty, Angular)"
+  ],
+  "publicApiSurface": [
+    "js_beautify(code, options) / beautify.js(code, options)",
+    "css_beautify(code, options) / beautify.css(code, options)",
+    "html_beautify(code, options) / beautify.html(code, options)",
+    "jsbeautifier.beautify(code) [Python]",
+    "jsbeautifier.beautify_file(path) [Python]",
+    "jsbeautifier.default_options() [Python]",
+    "cssbeautifier.beautify(code) [Python]",
+    "js-beautify CLI (js-beautify, css-beautify, html-beautify)"
+  ]
+}
